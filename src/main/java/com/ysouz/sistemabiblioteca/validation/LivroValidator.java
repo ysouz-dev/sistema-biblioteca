@@ -37,8 +37,8 @@ public final class LivroValidator {
         }
     }
 
-    public static void validaAnoLancamento(int ano) throws IllegalArgumentException {
-        if (ano > LocalDate.now().getYear()) {
+    public static void validaAnoLancamento(int ano) {
+        if (ano > LocalDate.now().getYear() || ano < 1450) {
             throw new IllegalArgumentException("Ano de lançamento inválido.");
         }
     }
