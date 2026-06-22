@@ -23,4 +23,24 @@ public class Livro {
         this.anoLancamento = anoLancamento;
         this.disponivel = true;
     }
+
+    public String getTitulo() {
+        return this.titulo;
+    }
+
+    public String getAutor() {
+        return this.autor;
+    }
+
+    public String getIsbn() {
+        return this.isbn;
+    }
+
+    public int getAnoLancamento() {
+        return this.anoLancamento;
+    }
+
+    public boolean isDisponivel() {
+        return this.disponivel;
+    }
 }
