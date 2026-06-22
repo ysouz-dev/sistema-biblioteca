@@ -5,6 +5,7 @@ import com.ysouz.sistemabiblioteca.connection.Conexao;
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 
@@ -25,6 +26,21 @@ public class LivroRepository {
 
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao salvar livro.", e);
+        }
+    }
+
+    public boolean containsLivro(String isbn) {
+        String query = "SELECT 1 FROM livros WHERE isbn = ?";
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)) {
+
+            statement.setString(1, isbn);
+            ResultSet rs = statement.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao verificar existência de livro no banco.", e);
         }
     }
 }
