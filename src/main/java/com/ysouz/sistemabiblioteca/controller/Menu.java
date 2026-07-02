@@ -5,12 +5,14 @@ import java.util.Scanner;
 
 public class Menu {
     private final LivroController livroController;
+    private final Scanner scanner;
 
-    public Menu(Scanner scanner) {
-        this.livroController = new LivroController(scanner);
+    public Menu() {
+        this.scanner = new Scanner(System.in);
+        this.livroController = new LivroController(this.scanner);
     }
 
-    public int menuPrincipal(Scanner scanner) {
+    public int menuPrincipal() {
         String titulo = "   Biblioteca YS   ";
         System.out.println("+ " + "-".repeat(titulo.length()) + " +");
         System.out.println("| " + titulo + " |");
@@ -23,14 +25,14 @@ public class Menu {
         do {
             try {
                 System.out.print("Digite uma opção: ");
-                resposta = scanner.nextInt();
-                scanner.nextLine();
+                resposta = this.scanner.nextInt();
+                this.scanner.nextLine();
                 if (resposta < 0 || resposta > 1) {
                     System.out.printf("Opção inválida! %d não é uma opção.%n", resposta);
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida! Digite somente números.");
-                scanner.nextLine();
+                this.scanner.nextLine();
             }
         } while(resposta < 0 || resposta > 1);
         return resposta;
@@ -40,8 +42,8 @@ public class Menu {
         this.livroController.cadastrarLivro();
     }
 
-    public void encerrarSistema(Scanner scanner) {
+    public void encerrarSistema() {
         System.out.println("Sistema encerrado, volte sempre!");
-        scanner.close();
+        this.scanner.close();
     }
 }
