@@ -4,15 +4,20 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
+    private final LivroController livroController;
 
-    public static int menuPrincipal(Scanner scanner) {
-        String titulo = "Biblioteca YS";
+    public Menu(Scanner scanner) {
+        this.livroController = new LivroController(scanner);
+    }
+
+    public int menuPrincipal(Scanner scanner) {
+        String titulo = "   Biblioteca YS   ";
         System.out.println("+ " + "-".repeat(titulo.length()) + " +");
         System.out.println("| " + titulo + " |");
         System.out.println("+ " + "-".repeat(titulo.length()) + " +");
         System.out.println("[ 1 ] Cadastrar Livro");
         System.out.println("[ 0 ] Encerrar Sistema");
-        System.out.println("-".repeat(20));
+        System.out.println("-".repeat(25));
 
         int resposta = Integer.MIN_VALUE;
         do {
@@ -31,7 +36,11 @@ public class Menu {
         return resposta;
     }
 
-    public static void encerrarSistema(Scanner scanner) {
+    public void cadastrarLivro() {
+        this.livroController.cadastrarLivro();
+    }
+
+    public void encerrarSistema(Scanner scanner) {
         System.out.println("Sistema encerrado, volte sempre!");
         scanner.close();
     }
