@@ -30,4 +30,9 @@ public class Menu {
         } while(resposta < 0 || resposta > 1);
         return resposta;
     }
+
+    public static void encerrarSistema(Scanner scanner) {
+        System.out.println("Sistema encerrado, volte sempre!");
+        scanner.close();
+    }
 }
