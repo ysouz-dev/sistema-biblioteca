@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.validation;
 
+import com.ysouz.sistemabiblioteca.enums.Sexo;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 
 import java.util.Objects;
@@ -34,6 +35,12 @@ public final class UsuarioValidator {
     public static void validaEndereco(Endereco endereco) {
         if (Objects.isNull(endereco)) {
             throw new IllegalArgumentException("Endereço inválido.");
+        }
+    }
+
+    public static void validaSexo(Sexo sexo) {
+        if (Sexo.isNull(sexo)) {
+            throw new IllegalArgumentException("Sexo inválido.");
         }
     }
 }
