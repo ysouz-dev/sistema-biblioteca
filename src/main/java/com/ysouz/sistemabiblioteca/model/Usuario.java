@@ -16,4 +16,16 @@ public class Usuario {
         this.cpf = cpf.strip();
         this.endereco = endereco;
     }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getCpf() {
+        return this.cpf;
+    }
+
+    public Endereco getEndereco() {
+        return this.endereco;
+    }
 }
