@@ -38,7 +38,7 @@ public class EnderecoController {
                 }
 
                 if (contador == 3) {
-                    System.out.print("Número");
+                    System.out.print("Número: ");
                     numero = this.scanner.nextLine();
                     EnderecoValidator.validaLogradouro(numero, "número");
                     contador++;

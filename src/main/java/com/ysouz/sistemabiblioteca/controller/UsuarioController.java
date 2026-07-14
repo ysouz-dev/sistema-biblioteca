@@ -67,5 +67,6 @@ public class UsuarioController {
                 return;
             }
         }
+        System.out.println("Usuário cadastrado!");
     }
 }
