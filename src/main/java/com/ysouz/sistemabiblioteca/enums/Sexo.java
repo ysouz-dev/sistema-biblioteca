@@ -15,6 +15,10 @@ public enum Sexo {
         this.sigla = sigla;
     }
 
+    public String getSigla() {
+        return this.sigla;
+    }
+
     public static boolean isNull(Sexo sexo) {
         return Objects.isNull(sexo);
     }
