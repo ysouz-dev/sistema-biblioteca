@@ -6,6 +6,7 @@ import com.ysouz.sistemabiblioteca.exception.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -56,6 +57,23 @@ public class UsuarioRepository {
                     System.err.println("Erro ao fechar conexão com o banco" + e.getMessage());
                 }
             }
+        }
+    }
+
+    public boolean containsUsuario(String cpf) {
+        String query = "SELECT 1 FROM usuarios WHERE cpf = ?";
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)){
+
+            statement.setString(1, cpf);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao verificar se existe usuário no banco", e);
         }
     }
 }
