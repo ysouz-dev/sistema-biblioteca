@@ -19,6 +19,19 @@ public enum Sexo {
         return this.sigla;
     }
 
+    public String getNome() {
+        return this.nome;
+    }
+
+    public static Sexo toSexo(String sexo) {
+        for (Sexo sex : Sexo.values()) {
+            if (sexo.equalsIgnoreCase(sex.getNome()) || sexo.equalsIgnoreCase(sex.getSigla())) {
+                return sex;
+            }
+        }
+        throw new IllegalArgumentException("Sexo inválido.");
+    }
+
     public static boolean isNull(Sexo sexo) {
         return Objects.isNull(sexo);
     }
