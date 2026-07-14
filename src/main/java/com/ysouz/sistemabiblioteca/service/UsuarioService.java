@@ -14,7 +14,7 @@ public class UsuarioService {
 
     public void cadastrarUsuario(Usuario usuario) {
         if (this.usuarioRepository.containsUsuario(usuario.getCpf())) {
-            throw new UsuarioJaCadastradoException("Usuário já cadastrado no sistema.");
+            throw new UsuarioJaCadastradoException("Usuário com esse cpf já cadastrado no sistema.");
         }
         this.usuarioRepository.salvar(usuario);
     }
