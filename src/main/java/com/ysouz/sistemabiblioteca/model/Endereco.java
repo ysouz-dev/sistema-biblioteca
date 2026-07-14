@@ -19,4 +19,20 @@ public class Endereco {
         this.numero = numero;
         this.cep = cep.strip();
     }
+
+    public String getRua() {
+        return this.rua;
+    }
+
+    public String getBairro() {
+        return this.bairro;
+    }
+
+    public String getCep() {
+        return this.cep;
+    }
+
+    public String getNumero() {
+        return this.numero;
+    }
 }
