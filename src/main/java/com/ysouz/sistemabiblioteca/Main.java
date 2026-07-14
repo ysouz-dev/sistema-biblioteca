@@ -14,6 +14,11 @@ public class Main {
                 case 1:
                     menu.cadastrarLivro();
                     break;
+
+                case 2:
+                    menu.cadastrarUsuario();
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
