@@ -17,4 +17,16 @@ public class Emprestimo {
         this.livro = livro;
         this.data = LocalDate.now();
     }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public Livro getLivro() {
+        return this.livro;
+    }
+
+    public LocalDate getData() {
+        return this.data;
+    }
 }
