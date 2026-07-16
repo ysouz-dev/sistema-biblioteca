@@ -1,8 +1,12 @@
 package com.ysouz.sistemabiblioteca.repository;
 
+import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
+import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.enums.Sexo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,6 +78,43 @@ public class UsuarioRepository {
 
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao verificar se existe usuário no banco", e);
+        }
+    }
+
+    public Usuario buscaPorCpf(String cpf) {
+        String queryUsuario = "SELECT * FROM usuarios WHERE cpf = ?";
+        String queryEndereco = "SELECT * FROM enderecos WHERE cpf_usuario = ?";
+
+        try (Connection conexao =   Conexao.getConexao();
+             PreparedStatement statementUsuario = conexao.prepareStatement(queryUsuario);
+            PreparedStatement statementEndereco = conexao.prepareStatement(queryEndereco)) {
+
+            statementUsuario.setString(1, cpf);
+            statementEndereco.setString(1, cpf);
+
+            try (ResultSet rsUsuario = statementUsuario.executeQuery();
+                ResultSet rsEndereco = statementEndereco.executeQuery()) {
+
+                if (rsUsuario.next()) {
+                    if (rsEndereco.next()) {
+                        String nome = rsUsuario.getString("nome");
+                        String CPF = rsUsuario.getString("cpf");
+                        Sexo sexo = Sexo.toSexo(rsUsuario.getString("sexo"));
+
+                        String rua = rsEndereco.getString("rua");
+                        String bairro = rsEndereco.getString("bairro");
+                        String numero = rsEndereco.getString("numero");
+                        String cep = rsEndereco.getString("cep");
+
+                        return new Usuario(nome, CPF, sexo, new Endereco(rua, numero, bairro, cep));
+
+                    }
+                    throw new EnderecoNaoEncontradoException("Endereço do usuário não encontrado no sistema.");
+                }
+                throw new UsuarioNaoEncontradoException("Usuário não encontrado no sistema.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar usuário no banco", e);
         }
     }
 }
