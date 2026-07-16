@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class EmprestimoRepository {
 
@@ -50,6 +51,26 @@ public class EmprestimoRepository {
                     System.err.println("Erro ao fechar conexão com o banco: " + ex.getMessage());
                 }
             }
+        }
+    }
+
+    public boolean containsEmprestimo(Emprestimo emprestimo) {
+        String query = "SELECT situacao FROM emprestimos WHERE cpf_usuario = ?";
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)){
+
+            statement.setString(1, emprestimo.getUsuario().getCpf());
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("situacao").equals("PENDENTE");
+                } else {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao verificar se existe empréstimo no banco", e);
         }
     }
 }
