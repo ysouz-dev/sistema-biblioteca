@@ -6,12 +6,14 @@ import java.util.Scanner;
 public class Menu {
     private final LivroController livroController;
     private final UsuarioController usuarioController;
+    private final EmprestimoController emprestimoController;
     private final Scanner scanner;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
         this.usuarioController = new UsuarioController(this.scanner);
         this.livroController = new LivroController(this.scanner);
+        this.emprestimoController = new EmprestimoController(this.scanner);
     }
 
     public int menuPrincipal() {
@@ -21,6 +23,7 @@ public class Menu {
         System.out.println("+ " + "-".repeat(titulo.length()) + " +");
         System.out.println("[ 1 ] Cadastrar Livro");
         System.out.println("[ 2 ] Cadastrar Usuário");
+        System.out.println("[ 3 ] Registrar Empréstimo");
         System.out.println("[ 0 ] Encerrar Sistema");
         System.out.println("-".repeat(25));
 
@@ -30,14 +33,14 @@ public class Menu {
                 System.out.print("Digite uma opção: ");
                 resposta = this.scanner.nextInt();
                 this.scanner.nextLine();
-                if (resposta < 0 || resposta > 2) {
+                if (resposta < 0 || resposta > 3) {
                     System.out.printf("Opção inválida! %d não é uma opção.%n", resposta);
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida! Digite somente números.");
                 this.scanner.nextLine();
             }
-        } while(resposta < 0 || resposta > 2);
+        } while(resposta < 0 || resposta > 3);
         return resposta;
     }
 
@@ -47,6 +50,10 @@ public class Menu {
 
     public void cadastrarUsuario() {
         this.usuarioController.cadastrarUsuario();
+    }
+
+    public void registrarEmprestimo() {
+        this.emprestimoController.cadastrarEmprestimo();
     }
 
     public void encerrarSistema() {
