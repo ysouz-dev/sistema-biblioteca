@@ -5,7 +5,7 @@ import com.ysouz.sistemabiblioteca.repository.LivroRepository;
 import com.ysouz.sistemabiblioteca.exception.LivroJaCadastradoException;
 
 public class LivroService {
-    private LivroRepository livroRepository;
+    private final LivroRepository livroRepository;
 
     public LivroService() {
         this.livroRepository = new LivroRepository();
@@ -16,5 +16,9 @@ public class LivroService {
             throw new LivroJaCadastradoException("Livro já cadastrado no sistema.");
         }
         this.livroRepository.salvar(livro);
+    }
+
+    public Livro buscarLivroPorIsbn(String isbn) {
+        return this.livroRepository.buscaPorIsbn(isbn);
     }
 }
