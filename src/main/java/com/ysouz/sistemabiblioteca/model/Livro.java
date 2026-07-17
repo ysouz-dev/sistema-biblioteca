@@ -24,6 +24,19 @@ public class Livro {
         this.disponivel = true;
     }
 
+    public Livro(String titulo, String autor, String isbn, int anoLancamento, boolean disponivel) {
+        LivroValidator.validaTitulo(titulo);
+        LivroValidator.validaAutor(autor);
+        LivroValidator.validaIsbn(isbn);
+        LivroValidator.validaAnoLancamento(anoLancamento);
+
+        this.titulo = titulo.strip().toUpperCase();
+        this.autor = autor.strip().toUpperCase();
+        this.isbn = isbn.strip();
+        this.anoLancamento = anoLancamento;
+        this.disponivel = disponivel;
+    }
+
     public String getTitulo() {
         return this.titulo;
     }
