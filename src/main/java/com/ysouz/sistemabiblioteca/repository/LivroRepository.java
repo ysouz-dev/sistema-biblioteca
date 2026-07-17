@@ -37,8 +37,10 @@ public class LivroRepository {
             PreparedStatement statement = conexao.prepareStatement(query)) {
 
             statement.setString(1, isbn);
-            ResultSet rs = statement.executeQuery();
-            return rs.next();
+
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next();
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao verificar existência de livro no banco.", e);
