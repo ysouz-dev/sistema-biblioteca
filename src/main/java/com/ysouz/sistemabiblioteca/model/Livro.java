@@ -3,7 +3,6 @@ package com.ysouz.sistemabiblioteca.model;
 import com.ysouz.sistemabiblioteca.validation.LivroValidator;
 
 public class Livro {
-    private Integer id;
     private String titulo;
     private String autor;
     private String isbn;
@@ -16,12 +15,24 @@ public class Livro {
         LivroValidator.validaIsbn(isbn);
         LivroValidator.validaAnoLancamento(anoLancamento);
 
-        this.id = null;
         this.titulo = titulo.strip().toUpperCase();
         this.autor = autor.strip().toUpperCase();
         this.isbn = isbn.strip();
         this.anoLancamento = anoLancamento;
         this.disponivel = true;
+    }
+
+    public Livro(String titulo, String autor, String isbn, int anoLancamento, boolean disponivel) {
+        LivroValidator.validaTitulo(titulo);
+        LivroValidator.validaAutor(autor);
+        LivroValidator.validaIsbn(isbn);
+        LivroValidator.validaAnoLancamento(anoLancamento);
+
+        this.titulo = titulo.strip().toUpperCase();
+        this.autor = autor.strip().toUpperCase();
+        this.isbn = isbn.strip();
+        this.anoLancamento = anoLancamento;
+        this.disponivel = disponivel;
     }
 
     public String getTitulo() {
