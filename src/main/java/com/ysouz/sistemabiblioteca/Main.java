@@ -19,6 +19,10 @@ public class Main {
                     menu.cadastrarUsuario();
                     break;
 
+                case 3:
+                    menu.registrarEmprestimo();
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
