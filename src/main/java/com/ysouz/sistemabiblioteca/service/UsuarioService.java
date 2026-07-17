@@ -18,4 +18,8 @@ public class UsuarioService {
         }
         this.usuarioRepository.salvar(usuario);
     }
+
+    public Usuario buscarUsuarioPorCpf(String cpf) {
+        return this.usuarioRepository.buscaPorCpf(cpf);
+    }
 }
