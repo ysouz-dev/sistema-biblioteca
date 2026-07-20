@@ -178,4 +178,12 @@ public class LivroController {
             System.out.println("=====================");
         }
     }
+
+    public void listaLivrosDisponiveis() {
+        System.out.println("========= Livros Disponíveis =========");
+        List<Livro> lista = this.livroService.listaLivrosDisponiveis();
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+        }
+    }
 }
