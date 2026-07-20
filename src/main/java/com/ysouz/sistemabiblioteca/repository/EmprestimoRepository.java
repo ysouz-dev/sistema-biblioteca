@@ -107,20 +107,16 @@ public class EmprestimoRepository {
 
     }
 
-    public boolean containsEmprestimo(Emprestimo emprestimo) {
-        String query = "SELECT situacao FROM emprestimos WHERE cpf_usuario = ?";
+    public boolean containsEmprestimo(String cpf) {
+        String query = "SELECT 1 FROM emprestimos WHERE cpf_usuario = ? and situacao = 'PENDENTE'";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query)){
 
-            statement.setString(1, emprestimo.getUsuario().getCpf());
+            statement.setString(1, cpf);
 
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("situacao").equals("PENDENTE");
-                } else {
-                    return false;
-                }
+                return rs.next();
             }
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao verificar se existe empréstimo no banco", e);
