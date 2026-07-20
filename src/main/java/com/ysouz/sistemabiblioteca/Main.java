@@ -23,6 +23,10 @@ public class Main {
                     menu.registrarEmprestimo();
                     break;
 
+                case 4:
+                    menu.devolverLivro();
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
