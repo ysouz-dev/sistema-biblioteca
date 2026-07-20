@@ -1,5 +1,7 @@
 package com.ysouz.sistemabiblioteca.model;
 
+import com.ysouz.sistemabiblioteca.exception.LivroJaEmprestadoException;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -11,7 +13,9 @@ public class Emprestimo {
     public Emprestimo(Usuario usuario, Livro livro) {
         if (Objects.isNull(usuario)) {throw new IllegalArgumentException("O usuário não pode ser nulo");}
         if (Objects.isNull(livro)) {throw new IllegalArgumentException("O livro não pode ser nulo.");}
-        if (!livro.isDisponivel()) {throw new IllegalArgumentException("Um livro indisponivel não pode ser emprestado");}
+        if (!livro.isDisponivel()) {
+            throw new LivroJaEmprestadoException("Um livro indisponivel não pode ser emprestado");
+        }
 
         this.usuario = usuario;
         this.livro = livro;
