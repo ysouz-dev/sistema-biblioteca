@@ -55,7 +55,7 @@ public class EmprestimoRepository {
         }
     }
 
-    public void devolver(Emprestimo emprestimo) {
+    public void devolver(String cpf) {
         String queryLivro = "UPDATE livros SET disponivel = true WHERE isbn = (SELECT Isbn_livro from emprestimos WHERE" +
                 " cpf_usuario = ? and situacao = 'PENDENTE')";
 
@@ -71,14 +71,14 @@ public class EmprestimoRepository {
             try (PreparedStatement statementDevolucao = conexao.prepareStatement(queryDevolucao);
                 PreparedStatement statementLivro = conexao.prepareStatement(queryLivro)) {
 
-                statementLivro.setString(1, emprestimo.getUsuario().getCpf());
+                statementLivro.setString(1, cpf);
                 int linhas = statementLivro.executeUpdate();
 
                 if (linhas == 0) {
                     throw new LivroNaoEncontradoException("Livro do empréstimo não encontrado no sistema.");
                 }
 
-                statementDevolucao.setString(1, emprestimo.getUsuario().getCpf());
+                statementDevolucao.setString(1,cpf);
                 statementDevolucao.executeUpdate();
 
 
