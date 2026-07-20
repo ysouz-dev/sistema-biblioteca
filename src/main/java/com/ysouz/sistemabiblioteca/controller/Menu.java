@@ -101,6 +101,14 @@ public class Menu {
         this.livroController.buscaPorIsbn();
     }
 
+    public void listaLivrosDisponiveis() {
+        this.livroController.listaLivrosDisponiveis();
+    }
+
+    public void listaLivrosPendentes() {
+        this.livroController.listaLivrosPendentes();
+    }
+
     public void encerrarSistema() {
         System.out.println("Sistema encerrado, volte sempre!");
         this.scanner.close();
