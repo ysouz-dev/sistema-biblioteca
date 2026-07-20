@@ -5,10 +5,9 @@ import com.ysouz.sistemabiblioteca.model.Livro;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Connection;
+import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class LivroRepository {
 
@@ -99,7 +98,7 @@ public class LivroRepository {
         }
     }
 
-    public Livro buscaPorAutor(String autor) {
+    public List<Livro> buscaPorAutor(String autor) {
         String query = "SELECT * FROM livros WHERE autor = ?";
 
         try (Connection conexao = Conexao.getConexao();
@@ -108,16 +107,20 @@ public class LivroRepository {
             statement.setString(1, autor);
 
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                List<Livro> lista = new ArrayList<>();
+                while(rs.next()) {
                     String titulo = rs.getString("titulo");
                     String AUTOR = rs.getString("autor");
                     String isbn = rs.getString("isbn");
                     int ano = rs.getInt("ano_lancamento");
                     boolean disponivel = rs.getBoolean("disponivel");
 
-                    return new Livro(titulo, AUTOR, isbn, ano, disponivel);
+                    lista.add(new Livro(titulo, AUTOR, isbn, ano, disponivel));
                 }
-                throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
+                if (lista.isEmpty()){
+                    throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
+                }
+                return lista;
             }
 
         } catch (SQLException e) {

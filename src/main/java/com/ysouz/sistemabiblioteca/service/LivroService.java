@@ -4,6 +4,8 @@ import com.ysouz.sistemabiblioteca.model.Livro;
 import com.ysouz.sistemabiblioteca.repository.LivroRepository;
 import com.ysouz.sistemabiblioteca.exception.LivroJaCadastradoException;
 
+import java.util.List;
+
 public class LivroService {
     private final LivroRepository livroRepository;
 
@@ -22,7 +24,7 @@ public class LivroService {
         return this.livroRepository.buscaPorIsbn(isbn);
     }
 
-    public Livro buscarLivroPorAutor(String autor) {
+    public List<Livro> buscarLivroPorAutor(String autor) {
         return this.livroRepository.buscaPorAutor(autor);
     }
 
