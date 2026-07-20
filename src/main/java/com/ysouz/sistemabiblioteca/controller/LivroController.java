@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.controller;
 
+import com.ysouz.sistemabiblioteca.exception.LivroNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.service.LivroService;
 import com.ysouz.sistemabiblioteca.validation.LivroValidator;
 import com.ysouz.sistemabiblioteca.model.Livro;
@@ -71,5 +72,107 @@ public class LivroController {
             }
         }
         System.out.println("Livro cadastrado!");
+    }
+
+    public void buscaPorIsbn() {
+        System.out.println("========= Busca por isbn =========");
+
+        String isbn = "";
+        Livro livro = null;
+
+        int contador = 0;
+        while (contador == 0) {
+            try {
+                System.out.print("ISBN: ");
+                isbn = this.scanner.nextLine();
+                LivroValidator.validaIsbn(isbn);
+                contador++;
+
+                livro = this.livroService.buscarLivroPorIsbn(isbn);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (LivroNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        System.out.println("=====================");
+        System.out.println("Título: " + livro.getTitulo());
+        System.out.println("Autor: " + livro.getAutor());
+        System.out.println("ISBN: " + livro.getIsbn());
+        System.out.println("Lançamento: " + livro.getAnoLancamento());
+        System.out.println("Disponível: " + ((livro.isDisponivel()) ? "SIM" : "NÃO"));
+        System.out.println("=====================");
+    }
+
+    public void buscaPorTitulo() {
+        System.out.println("========= Busca por título =========");
+
+        String titulo = "";
+        Livro livro = null;
+
+        int contador = 0;
+        while (contador == 0) {
+            try {
+                System.out.print("Título: ");
+                titulo = this.scanner.nextLine();
+                LivroValidator.validaTitulo(titulo);
+                contador++;
+
+                livro = this.livroService.buscarLivroPorTitulo(titulo);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (LivroNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        System.out.println("=====================");
+        System.out.println("Título: " + livro.getTitulo());
+        System.out.println("Autor: " + livro.getAutor());
+        System.out.println("ISBN: " + livro.getIsbn());
+        System.out.println("Lançamento: " + livro.getAnoLancamento());
+        System.out.println("Disponível: " + ((livro.isDisponivel()) ? "SIM" : "NÃO"));
+        System.out.println("=====================");
+    }
+
+    public void buscaPorAutor() {
+        System.out.println("========= Busca por Autor =========");
+
+        String autor = "";
+        Livro livro = null;
+
+        int contador = 0;
+        while (contador == 0) {
+            try {
+                System.out.print("Autor: ");
+                autor = this.scanner.nextLine();
+                LivroValidator.validaAutor(autor);
+                contador++;
+
+                livro = this.livroService.buscarLivroPorAutor(autor);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (LivroNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        System.out.println("=====================");
+        System.out.println("Título: " + livro.getTitulo());
+        System.out.println("Autor: " + livro.getAutor());
+        System.out.println("ISBN: " + livro.getIsbn());
+        System.out.println("Lançamento: " + livro.getAnoLancamento());
+        System.out.println("Disponível: " + ((livro.isDisponivel()) ? "SIM" : "NÃO"));
+        System.out.println("=====================");
     }
 }
