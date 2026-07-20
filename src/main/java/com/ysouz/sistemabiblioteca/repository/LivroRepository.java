@@ -91,9 +91,6 @@ public class LivroRepository {
 
                     lista.add(new Livro(TITULO, autor, isbn, ano, disponivel));
                 }
-                if (lista.isEmpty()) {
-                    throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
-                }
                 return lista;
             }
 
@@ -121,9 +118,6 @@ public class LivroRepository {
 
                     lista.add(new Livro(titulo, AUTOR, isbn, ano, disponivel));
                 }
-                if (lista.isEmpty()){
-                    throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
-                }
                 return lista;
             }
 
@@ -149,9 +143,6 @@ public class LivroRepository {
 
                 lista.add(new Livro(titulo, autor, isbn, ano, disponivel));
             }
-            if (lista.isEmpty()) {
-                throw new LivroNaoEncontradoException("Não há livros disponíveis para empréstimo no momento");
-            }
             return lista;
 
         } catch (SQLException e) {
@@ -175,9 +166,6 @@ public class LivroRepository {
                 boolean disponivel = rs.getBoolean("disponivel");
 
                 lista.add(new Livro(titulo, autor, isbn, ano, disponivel));
-            }
-            if (lista.isEmpty()) {
-                throw new LivroNaoEncontradoException("Não há livros pendentes no sistema");
             }
             return lista;
 
