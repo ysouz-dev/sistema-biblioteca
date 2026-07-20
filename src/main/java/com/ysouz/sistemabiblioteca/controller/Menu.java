@@ -25,6 +25,7 @@ public class Menu {
         System.out.println("[ 2 ] Cadastrar Usuário");
         System.out.println("[ 3 ] Registrar Empréstimo");
         System.out.println("[ 4 ] Devolver Livro");
+        System.out.println("[ 5 ] Livro Opcões...");
         System.out.println("[ 0 ] Encerrar Sistema");
         System.out.println("-".repeat(25));
 
@@ -34,14 +35,14 @@ public class Menu {
                 System.out.print("Digite uma opção: ");
                 resposta = this.scanner.nextInt();
                 this.scanner.nextLine();
-                if (resposta < 0 || resposta > 4) {
+                if (resposta < 0 || resposta > 5) {
                     System.out.printf("Opção inválida! %d não é uma opção.%n", resposta);
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida! Digite somente números.");
                 this.scanner.nextLine();
             }
-        } while(resposta < 0 || resposta > 4);
+        } while(resposta < 0 || resposta > 5);
         return resposta;
     }
 
