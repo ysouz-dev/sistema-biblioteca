@@ -186,4 +186,12 @@ public class LivroController {
             System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
         }
     }
+
+    public void listaLivrosPendentes() {
+        System.out.println("========= Livros Pendentes =========");
+        List<Livro> lista = this.livroService.listaLivrosPendentes();
+        for(int i = 0; i < lista.size(); i++) {
+            System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+        }
+    }
 }
