@@ -131,4 +131,31 @@ public class LivroRepository {
             throw new DatabaseException("Erro ao buscar Livro no banco", e);
         }
     }
+
+    public List<Livro> livrosDisponiveis() {
+        String query = "SELECT * FROM livros WHERE disponivel = true";
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query);
+            ResultSet rs = statement.executeQuery()) {
+
+            List<Livro> lista = new ArrayList<>();
+            while (rs.next()) {
+                String titulo = rs.getString("titulo");
+                String autor = rs.getString("autor");
+                String isbn = rs.getString("isbn");
+                int ano = rs.getInt("ano_lancamento");
+                boolean disponivel = rs.getBoolean("disponivel");
+
+                lista.add(new Livro(titulo, autor, isbn, ano, disponivel));
+            }
+            if (lista.isEmpty()) {
+                throw new LivroNaoEncontradoException("Não há livros disponíveis para empréstimo no momento");
+            }
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar livros disponíveis no banco", e);
+        }
+    }
 }
