@@ -21,4 +21,12 @@ public class LivroService {
     public Livro buscarLivroPorIsbn(String isbn) {
         return this.livroRepository.buscaPorIsbn(isbn);
     }
+
+    public Livro buscarLivroPorAutor(String autor) {
+        return this.livroRepository.buscaPorAutor(autor);
+    }
+
+    public Livro buscarLivroPorTitulo(String titulo) {
+        return this.livroRepository.buscaPorTitulo(titulo);
+    }
 }
