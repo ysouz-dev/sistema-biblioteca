@@ -70,4 +70,31 @@ public class EmprestimoController {
         }
         System.out.println("Empréstimo cadastrado!");
     }
+
+    public void devolverLivro() {
+        System.out.println("========= DEVOLUÇÃO =========");
+
+        String cpf = "";
+
+        int contador = 0;
+        while (contador == 0) {
+            try {
+                System.out.print("CPF do usuário: ");
+                cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+                contador++;
+
+                this.emprestimoService.devolverLivro(cpf);
+
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (EmprestimoNaoEncontradoException | LivroNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+        System.out.println("Devolução realizada!");
+    }
 }
