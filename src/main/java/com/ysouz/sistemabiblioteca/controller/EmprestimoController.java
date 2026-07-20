@@ -1,9 +1,6 @@
 package com.ysouz.sistemabiblioteca.controller;
 
-import com.ysouz.sistemabiblioteca.exception.EmprestimoPendenteException;
-import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
-import com.ysouz.sistemabiblioteca.exception.LivroNaoEncontradoException;
-import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.*;
 import com.ysouz.sistemabiblioteca.model.Emprestimo;
 import com.ysouz.sistemabiblioteca.model.Livro;
 import com.ysouz.sistemabiblioteca.model.Usuario;
@@ -64,7 +61,7 @@ public class EmprestimoController {
                 System.out.println(e.getMessage());
 
             } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException | LivroNaoEncontradoException |
-                     EmprestimoPendenteException e) {
+                     EmprestimoPendenteException | LivroJaEmprestadoException e) {
 
                 System.out.println(e.getMessage());
                 return;
@@ -72,5 +69,32 @@ public class EmprestimoController {
             }
         }
         System.out.println("Empréstimo cadastrado!");
+    }
+
+    public void devolverLivro() {
+        System.out.println("========= DEVOLUÇÃO =========");
+
+        String cpf = "";
+
+        int contador = 0;
+        while (contador == 0) {
+            try {
+                System.out.print("CPF do usuário: ");
+                cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+                contador++;
+
+                this.emprestimoService.devolverLivro(cpf);
+
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (EmprestimoNaoEncontradoException | LivroNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+        System.out.println("Devolução realizada!");
     }
 }

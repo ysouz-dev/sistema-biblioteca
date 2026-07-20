@@ -13,7 +13,7 @@ import java.sql.Connection;
 public class LivroRepository {
 
     public void salvar(Livro livro) {
-        String query = "INSERT INTO livros VALUES (default , ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO livros VALUES ( ?, ?, ?, ?, ?)";
 
         try (Connection conexao = Conexao.getConexao();
              PreparedStatement statement = conexao.prepareStatement(query)) {
