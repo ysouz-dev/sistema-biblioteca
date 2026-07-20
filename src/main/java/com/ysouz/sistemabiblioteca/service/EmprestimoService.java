@@ -14,16 +14,16 @@ public class EmprestimoService {
     }
 
     public void cadastrarEmprestimo(Emprestimo emprestimo) {
-        if (this.emprestimoRepository.containsEmprestimo(emprestimo)) {
+        if (this.emprestimoRepository.containsEmprestimo(emprestimo.getUsuario().getCpf())) {
             throw new EmprestimoPendenteException("O usuário já possui um empréstimo pendente.");
         }
         this.emprestimoRepository.emprestar(emprestimo);
     }
 
-    public void devolverLivro(Emprestimo emprestimo) {
-        if (!this.emprestimoRepository.containsEmprestimo(emprestimo)) {
+    public void devolverLivro(String cpf) {
+        if (!this.emprestimoRepository.containsEmprestimo(cpf)) {
             throw new EmprestimoNaoEncontradoException("Empréstimo não encontrado no sistema.");
         }
-        this.emprestimoRepository.devolver(emprestimo);
+        this.emprestimoRepository.devolver(cpf);
     }
 }
