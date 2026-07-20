@@ -40,4 +40,20 @@ public class LivroService {
         }
         return lista;
     }
+
+    public List<Livro> listaLivrosDisponiveis() {
+        List<Livro> lista = this.livroRepository.livrosDisponiveis();
+        if(lista.isEmpty()) {
+            throw new LivroNaoEncontradoException("Não há nenhum livro disponivel no momento");
+        }
+        return lista;
+    }
+
+    public List<Livro> listaLivrosPendentes() {
+        List<Livro> lista = this.livroRepository.livrosPendentes();
+        if (lista.isEmpty()) {
+            throw new LivroNaoEncontradoException("Não há nenhum livro pendente no sistema.");
+        }
+        return lista;
+    }
 }
