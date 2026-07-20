@@ -88,6 +88,18 @@ public class Menu {
         this.emprestimoController.devolverLivro();
     }
 
+    public void buscarPorTitulo() {
+        this.livroController.buscaPorTitulo();
+    }
+
+    public void buscarPorAutor() {
+        this.livroController.buscaPorAutor();
+    }
+
+    public void buscarPorIsbn() {
+        this.livroController.buscaPorIsbn();
+    }
+
     public void encerrarSistema() {
         System.out.println("Sistema encerrado, volte sempre!");
         this.scanner.close();
