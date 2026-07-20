@@ -113,7 +113,7 @@ public class LivroController {
         System.out.println("========= Busca por título =========");
 
         String titulo = "";
-        Livro livro = null;
+        List<Livro> livros = null;
 
         int contador = 0;
         while (contador == 0) {
@@ -123,7 +123,7 @@ public class LivroController {
                 LivroValidator.validaTitulo(titulo);
                 contador++;
 
-                livro = this.livroService.buscarLivroPorTitulo(titulo);
+                livros = this.livroService.buscarLivroPorTitulo(titulo);
 
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -133,14 +133,15 @@ public class LivroController {
                 return;
             }
         }
-
-        System.out.println("=====================");
-        System.out.println("Título: " + livro.getTitulo());
-        System.out.println("Autor: " + livro.getAutor());
-        System.out.println("ISBN: " + livro.getIsbn());
-        System.out.println("Lançamento: " + livro.getAnoLancamento());
-        System.out.println("Disponível: " + ((livro.isDisponivel()) ? "SIM" : "NÃO"));
-        System.out.println("=====================");
+        for (Livro book : livros) {
+            System.out.println("=====================");
+            System.out.println("Título: " + book.getTitulo());
+            System.out.println("Autor: " + book.getAutor());
+            System.out.println("ISBN: " + book.getIsbn());
+            System.out.println("Lançamento: " + book.getAnoLancamento());
+            System.out.println("Disponível: " + ((book.isDisponivel()) ? "SIM" : "NÃO"));
+            System.out.println("=====================");
+        }
     }
 
     public void buscaPorAutor() {

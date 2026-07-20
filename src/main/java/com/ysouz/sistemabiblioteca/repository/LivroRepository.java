@@ -72,7 +72,7 @@ public class LivroRepository {
         }
     }
 
-    public Livro buscaPorTitulo(String titulo) {
+    public List<Livro> buscaPorTitulo(String titulo) {
         String query = "SELECT * FROM livros WHERE titulo = ?";
 
         try (Connection conexao = Conexao.getConexao();
@@ -81,16 +81,20 @@ public class LivroRepository {
             statement.setString(1, titulo);
 
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                List<Livro> lista = new ArrayList<>();
+                while(rs.next()) {
                     String TITULO = rs.getString("titulo");
                     String autor = rs.getString("autor");
                     String isbn = rs.getString("isbn");
                     int ano = rs.getInt("ano_lancamento");
                     boolean disponivel = rs.getBoolean("disponivel");
 
-                    return new Livro(TITULO, autor, isbn, ano, disponivel);
+                    lista.add(new Livro(TITULO, autor, isbn, ano, disponivel));
                 }
-                throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
+                if (lista.isEmpty()) {
+                    throw new LivroNaoEncontradoException("Livro não encontrado no sistema.");
+                }
+                return lista;
             }
 
         } catch (SQLException e) {

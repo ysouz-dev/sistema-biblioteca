@@ -28,7 +28,7 @@ public class LivroService {
         return this.livroRepository.buscaPorAutor(autor);
     }
 
-    public Livro buscarLivroPorTitulo(String titulo) {
+    public List<Livro> buscarLivroPorTitulo(String titulo) {
         return this.livroRepository.buscaPorTitulo(titulo);
     }
 }
