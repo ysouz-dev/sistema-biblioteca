@@ -27,6 +27,35 @@ public class Main {
                     menu.devolverLivro();
                     break;
 
+                case 5:
+                    int opcao = menu.menuLivro();
+
+                    switch (opcao) {
+                        case 1:
+                            menu.buscarPorTitulo();
+                            break;
+
+                        case 2:
+                            menu.buscarPorIsbn();
+                            break;
+
+                        case 3:
+                            menu.buscarPorAutor();
+                            break;
+
+                        case 4:
+                            menu.listaLivrosDisponiveis();
+                            break;
+
+                        case 5:
+                            menu.listaLivrosPendentes();
+                            break;
+
+                        case 0:
+                            break;
+                    }
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
