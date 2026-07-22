@@ -181,17 +181,25 @@ public class LivroController {
 
     public void listaLivrosDisponiveis() {
         System.out.println("========= Livros Disponíveis =========");
-        List<Livro> lista = this.livroService.listaLivrosDisponiveis();
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+        try {
+            List<Livro> lista = this.livroService.listaLivrosDisponiveis();
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+            }
+        } catch (LivroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void listaLivrosPendentes() {
         System.out.println("========= Livros Pendentes =========");
-        List<Livro> lista = this.livroService.listaLivrosPendentes();
-        for(int i = 0; i < lista.size(); i++) {
-            System.out.printf("%d - %s | Autor: %s %n", i+1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+        try {
+            List<Livro> lista = this.livroService.listaLivrosPendentes();
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.printf("%d - %s | Autor: %s %n", i + 1, lista.get(i).getTitulo(), lista.get(i).getAutor());
+            }
+        } catch (LivroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
