@@ -51,7 +51,7 @@ public class Menu {
         System.out.println("[ 1 ] Busca por Título");
         System.out.println("[ 2 ] Busca Por ISBN");
         System.out.println("[ 3 ] Busca Por Autor");
-        System.out.println("[ 4 ] Livro Disponíveis");
+        System.out.println("[ 4 ] Livros Disponíveis");
         System.out.println("[ 5 ] Livros Pendentes");
         System.out.println("[ 0 ] Voltar");
         System.out.println("-".repeat(25));
