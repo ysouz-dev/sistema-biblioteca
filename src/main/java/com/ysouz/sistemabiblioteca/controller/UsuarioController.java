@@ -1,5 +1,7 @@
 package com.ysouz.sistemabiblioteca.controller;
 
+import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.service.UsuarioService;
@@ -7,6 +9,7 @@ import com.ysouz.sistemabiblioteca.validation.UsuarioValidator;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 import com.ysouz.sistemabiblioteca.exception.UsuarioJaCadastradoException;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class UsuarioController {
@@ -68,5 +71,37 @@ public class UsuarioController {
             }
         }
         System.out.println("Usuário cadastrado!");
+    }
+
+    public void buscaPorCpf() {
+
+        Usuario usuario = null;
+
+        while (Objects.isNull(usuario)) {
+            try {
+                System.out.print("Cpf do usuário: ");
+                String cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+
+                usuario = this.usuarioService.buscarUsuarioPorCpf(cpf);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+        System.out.println("=====================");
+        System.out.println("Nome: " + usuario.getNome());
+        System.out.println("Cpf: " + usuario.getCpf());
+        System.out.println("Sexo: " + usuario.getSexo().getNome());
+        System.out.println("CEP: " + usuario.getEndereco().getCep());
+        System.out.println("Rua: " + usuario.getEndereco().getRua());
+        System.out.println("Bairro: " + usuario.getEndereco().getBairro());
+        System.out.println("Número: " + usuario.getEndereco().getNumero());
+        System.out.println("=====================");
+
     }
 }
