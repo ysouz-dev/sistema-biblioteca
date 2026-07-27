@@ -109,6 +109,14 @@ public class Menu {
         this.livroController.listaLivrosPendentes();
     }
 
+    public void buscaPorCpf() {
+        this.usuarioController.buscaPorCpf();
+    }
+
+    public void buscaPorNome() {
+        this.usuarioController.buscaPorNome();
+    }
+
     public void encerrarSistema() {
         System.out.println("Sistema encerrado, volte sempre!");
         this.scanner.close();
