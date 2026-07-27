@@ -82,29 +82,28 @@ public class UsuarioRepository {
     }
 
     public Usuario buscaPorCpf(String cpf) {
-        String queryUsuario = "SELECT * FROM usuarios WHERE cpf = ?";
-        String queryEndereco = "SELECT * FROM enderecos WHERE cpf_usuario = ?";
+        String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
+                        "RIGHT JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "WHERE u.cpf = ?";
 
         try (Connection conexao =   Conexao.getConexao();
-             PreparedStatement statementUsuario = conexao.prepareStatement(queryUsuario);
-            PreparedStatement statementEndereco = conexao.prepareStatement(queryEndereco)) {
+             PreparedStatement statement = conexao.prepareStatement(query)) {
 
-            statementUsuario.setString(1, cpf);
-            statementEndereco.setString(1, cpf);
+            statement.setString(1, cpf);
 
-            try (ResultSet rsUsuario = statementUsuario.executeQuery();
-                ResultSet rsEndereco = statementEndereco.executeQuery()) {
+            try (ResultSet rs = statement.executeQuery()) {
 
-                if (rsUsuario.next()) {
-                    if (rsEndereco.next()) {
-                        String nome = rsUsuario.getString("nome");
-                        String CPF = rsUsuario.getString("cpf");
-                        Sexo sexo = Sexo.toSexo(rsUsuario.getString("sexo"));
+                if (rs.next()) {
+                        String rua = rs.getString("rua");
+                        String bairro = rs.getString("bairro");
+                        String numero = rs.getString("numero");
+                        String cep = rs.getString("cep");
 
-                        String rua = rsEndereco.getString("rua");
-                        String bairro = rsEndereco.getString("bairro");
-                        String numero = rsEndereco.getString("numero");
-                        String cep = rsEndereco.getString("cep");
+                    if (rua != null && bairro != null && numero != null && cep != null) {
+                        String nome = rs.getString("nome");
+                        String CPF = rs.getString("cpf");
+                        Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
 
                         return new Usuario(nome, CPF, sexo, new Endereco(rua, numero, bairro, cep));
 
