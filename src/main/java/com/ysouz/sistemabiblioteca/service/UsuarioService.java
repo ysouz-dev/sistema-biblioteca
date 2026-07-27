@@ -33,4 +33,12 @@ public class UsuarioService {
         }
         return lista;
     }
+
+    public List<Usuario> listaUsuariosPendente() {
+        List<Usuario> lista = this.usuarioRepository.listaUsuariosPendentes();
+        if (lista.isEmpty()) {
+            throw new UsuarioNaoEncontradoException("Não há nenhum usuário com empréstimo pendente");
+        }
+        return lista;
+    }
 }
