@@ -9,6 +9,7 @@ import com.ysouz.sistemabiblioteca.validation.UsuarioValidator;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 import com.ysouz.sistemabiblioteca.exception.UsuarioJaCadastradoException;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -103,5 +104,39 @@ public class UsuarioController {
         System.out.println("Número: " + usuario.getEndereco().getNumero());
         System.out.println("=====================");
 
+    }
+
+    public void buscaPorNome() {
+
+        List<Usuario> lista = null;
+
+        while (Objects.isNull(lista)) {
+            try {
+                System.out.print("Nome do usuário: ");
+                String nome = this.scanner.nextLine();
+                UsuarioValidator.validaNome(nome);
+
+                lista = this.usuarioService.buscarUsuarioPorNome(nome);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        for (Usuario user : lista) {
+            System.out.println("=====================");
+            System.out.println("Nome: " + user.getNome());
+            System.out.println("Cpf: " + user.getCpf());
+            System.out.println("Sexo: " + user.getSexo().getNome());
+            System.out.println("CEP: " + user.getEndereco().getCep());
+            System.out.println("Rua: " + user.getEndereco().getRua());
+            System.out.println("Bairro: " + user.getEndereco().getBairro());
+            System.out.println("Número: " + user.getEndereco().getNumero());
+            System.out.println("=====================");
+        }
     }
 }
