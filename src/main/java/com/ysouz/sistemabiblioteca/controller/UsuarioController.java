@@ -156,4 +156,22 @@ public class UsuarioController {
             System.out.println(e.getMessage());
         }
     }
+
+    public void listaUsuarios() {
+        try {
+            List<UsuarioDTO> lista = this.usuarioService.listaUsuarios();
+
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println("=====================");
+                System.out.printf("%d.%n", i + 1);
+                System.out.println("Nome: " + lista.get(i).getNome());
+                System.out.println("Cpf: " + lista.get(i).getCpf());
+                System.out.println("Sexo: " + lista.get(i).getSexo().getNome());
+                System.out.println("=====================");
+            }
+
+        } catch (UsuarioNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
