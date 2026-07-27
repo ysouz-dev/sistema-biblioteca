@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.repository;
 
+import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
@@ -160,6 +161,30 @@ public class UsuarioRepository {
 
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar usuário no banco", e);
+        }
+    }
+
+    public List<UsuarioDTO> listaUsuarios() {
+        String query = "SELECT * FROM usuarios";
+
+        List<UsuarioDTO> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query);
+            ResultSet rs = statement.executeQuery()) {
+
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
+
+                lista.add(new UsuarioDTO(nome, cpf, sexo));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar lista de usuários no banco", e);
         }
     }
 
