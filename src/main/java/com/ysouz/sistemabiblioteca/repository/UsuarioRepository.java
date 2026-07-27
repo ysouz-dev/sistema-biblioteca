@@ -146,7 +146,7 @@ public class UsuarioRepository {
                         String cpf = rs.getString("cpf");
                         Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
 
-                        lista.add(new Usuario(nome, cpf, sexo, new Endereco(rua, numero, bairro, cep)));
+                        lista.add(new Usuario(NOME, cpf, sexo, new Endereco(rua, numero, bairro, cep)));
 
                     } else {
                         String usuario = rs.getString("nome");
