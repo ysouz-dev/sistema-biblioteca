@@ -35,6 +35,14 @@ public class UsuarioService {
         return lista;
     }
 
+    public List<UsuarioDTO> listaUsuarios() {
+        List<UsuarioDTO> lista = this.usuarioRepository.listaUsuarios();
+        if (lista.isEmpty()) {
+            throw new UsuarioNaoEncontradoException("Não há nenhum usuário cadastrado no sistema.");
+        }
+        return lista;
+    }
+
     public List<UsuarioDTO> listaUsuariosPendente() {
         List<UsuarioDTO> lista = this.usuarioRepository.listaUsuariosPendentes();
         if (lista.isEmpty()) {
