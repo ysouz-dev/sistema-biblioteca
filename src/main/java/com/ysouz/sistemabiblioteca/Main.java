@@ -56,6 +56,27 @@ public class Main {
                     }
                     break;
 
+                case 6:
+                    int opcao2 = menu.menuUsuario();
+
+                    switch (opcao2) {
+                        case 1:
+                            menu.buscaPorCpf();
+                            break;
+
+                        case 2:
+                            menu.buscaPorNome();
+                            break;
+
+                        case 3:
+                            menu.listaUsuariosPendentes();
+                            break;
+
+                        case 0:
+                            break;
+                    }
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
