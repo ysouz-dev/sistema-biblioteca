@@ -152,7 +152,7 @@ public class UsuarioController {
                 System.out.println("Sexo: " + lista.get(i).getSexo().getNome());
                 System.out.println("=====================");
             }
-        } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+        } catch (UsuarioNaoEncontradoException e) {
             System.out.println(e.getMessage());
         }
     }
