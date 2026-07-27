@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.service;
 
+import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
 import com.ysouz.sistemabiblioteca.exception.UsuarioJaCadastradoException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.repository.UsuarioRepository;
@@ -34,8 +35,8 @@ public class UsuarioService {
         return lista;
     }
 
-    public List<Usuario> listaUsuariosPendente() {
-        List<Usuario> lista = this.usuarioRepository.listaUsuariosPendentes();
+    public List<UsuarioDTO> listaUsuariosPendente() {
+        List<UsuarioDTO> lista = this.usuarioRepository.listaUsuariosPendentes();
         if (lista.isEmpty()) {
             throw new UsuarioNaoEncontradoException("Não há nenhum usuário com empréstimo pendente");
         }

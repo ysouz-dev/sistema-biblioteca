@@ -188,39 +188,25 @@ public class UsuarioRepository {
         }
     }
 
-    public List<Usuario> listaUsuariosPendentes() {
-        String query = "SELECT u.*, en.rua, en.bairro, en.numero, en.cep FROM emprestimos as e " +
+    public List<UsuarioDTO> listaUsuariosPendentes() {
+        String query = "SELECT u.* FROM emprestimos as e " +
                         "JOIN usuarios as u " +
                         "ON u.cpf = e.cpf_usuario " +
-                        "JOIN enderecos as en " +
-                        "ON en.cpf_usuario = u.cpf " +
                         "WHERE e.situacao = 'PENDENTE' " +
                         "ORDER BY u.nome";
 
-        List<Usuario> lista = new ArrayList<>();
+        List<UsuarioDTO> lista = new ArrayList<>();
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query);
             ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
-                String rua = rs.getString("rua");
-                String numero = rs.getString("numero");
-                String bairro = rs.getString("bairro");
-                String cep = rs.getString("cep");
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
 
-                if (rua != null && numero != null && bairro != null && cep != null) {
-                    String nome = rs.getString("nome");
-                    String cpf = rs.getString("cpf");
-                    Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
-
-                    lista.add(new Usuario(nome, cpf, sexo, new Endereco(rua, numero, bairro, cep)));
-
-                } else {
-                    String usuario = rs.getString("nome");
-                    throw new EnderecoNaoEncontradoException("Endereço do usuário (" + usuario
-                            + ") não encontrado no sistema.");
-                }
+                lista.add(new UsuarioDTO(nome, cpf, sexo));
             }
 
             return lista;

@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.controller;
 
+import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
 import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
@@ -142,7 +143,7 @@ public class UsuarioController {
 
     public void listaUsuariosPendentes() {
         try {
-            List<Usuario> lista = this.usuarioService.listaUsuariosPendente();
+            List<UsuarioDTO> lista = this.usuarioService.listaUsuariosPendente();
             for (int i = 0; i < lista.size(); i++) {
                 System.out.println("=====================");
                 System.out.printf("%d.%n", i + 1);
