@@ -168,8 +168,8 @@ public class UsuarioRepository {
                         "JOIN usuarios as u " +
                         "ON u.cpf = e.cpf_usuario " +
                         "JOIN enderecos as en " +
-                        "ON en." +
-                        "WHERE e.situacao = 'PENDENTE'" +
+                        "ON en.cpf_usuario = u.cpf " +
+                        "WHERE e.situacao = 'PENDENTE' " +
                         "ORDER BY u.nome";
 
         List<Usuario> lista = new ArrayList<>();
