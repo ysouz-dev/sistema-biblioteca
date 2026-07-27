@@ -139,4 +139,16 @@ public class UsuarioController {
             System.out.println("=====================");
         }
     }
+
+    public void listaUsuariosPendentes() {
+        List<Usuario> lista = this.usuarioService.listaUsuariosPendente();
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println("=====================");
+            System.out.printf("%d.%n", i+1);
+            System.out.println("Nome: " + lista.get(i).getNome());
+            System.out.println("Cpf: " + lista.get(i).getCpf());
+            System.out.println("Sexo: " + lista.get(i).getSexo().getNome());
+            System.out.println("=====================");
+        }
+    }
 }
