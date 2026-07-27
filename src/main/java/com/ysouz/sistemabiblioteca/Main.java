@@ -72,6 +72,10 @@ public class Main {
                             menu.listaUsuariosPendentes();
                             break;
 
+                        case 4:
+                            menu.listaUsuarios();
+                            break;
+
                         case 0:
                             break;
                     }
