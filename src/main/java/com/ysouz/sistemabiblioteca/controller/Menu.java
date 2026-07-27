@@ -79,6 +79,7 @@ public class Menu {
         System.out.println("[ 1 ] Busca por CPF");
         System.out.println("[ 2 ] Busca por Nome");
         System.out.println("[ 3 ] Usuários com Empréstimos Pendentes");
+        System.out.println("[ 4 ] Lista de Usuários");
         System.out.println("[ 0 ] Voltar");
         System.out.println("-".repeat(25));
 
@@ -88,14 +89,14 @@ public class Menu {
                 System.out.print("Digite uma opção: ");
                 resposta = this.scanner.nextInt();
                 this.scanner.nextLine();
-                if (resposta < 0 || resposta > 3) {
+                if (resposta < 0 || resposta > 4) {
                     System.out.printf("Opção inválida! %d não é uma opção.%n", resposta);
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Opção inválida! Digite somente números.");
                 this.scanner.nextLine();
             }
-        } while(resposta < 0 || resposta > 3);
+        } while(resposta < 0 || resposta > 4);
         return resposta;
     }
 
@@ -145,6 +146,10 @@ public class Menu {
 
     public void listaUsuariosPendentes() {
         this.usuarioController.listaUsuariosPendentes();
+    }
+
+    public void listaUsuarios() {
+        this.usuarioController.listaUsuarios();
     }
 
     public void encerrarSistema() {
