@@ -8,6 +8,8 @@ import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -112,6 +114,50 @@ public class UsuarioRepository {
                 }
                 throw new UsuarioNaoEncontradoException("Usuário não encontrado no sistema.");
             }
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar usuário no banco", e);
+        }
+    }
+
+    public List<Usuario> buscaPorNome(String nome) {
+        String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
+                "RIGHT JOIN usuarios as u " +
+                "ON u.cpf = e.cpf_usuario " +
+                "WHERE u.nome like ? " +
+                "ORDER BY u.nome";
+
+        List<Usuario> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)) {
+
+            statement.setString(1, "%" + nome + "%");
+
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    String rua = rs.getString("rua");
+                    String bairro = rs.getString("bairro");
+                    String numero = rs.getString("numero");
+                    String cep = rs.getString("cep");
+
+                    if (rua != null && bairro != null && numero != null && cep != null) {
+                        String NOME = rs.getString("nome");
+                        String cpf = rs.getString("cpf");
+                        Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
+
+                        lista.add(new Usuario(nome, cpf, sexo, new Endereco(rua, numero, bairro, cep)));
+
+                    } else {
+                        String usuario = rs.getString("nome");
+                        throw new EnderecoNaoEncontradoException("Endereço do usuário (" + usuario
+                                + ") não encontrado no sistema.");
+                    }
+                }
+            }
+
+            return lista;
+
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar usuário no banco", e);
         }
