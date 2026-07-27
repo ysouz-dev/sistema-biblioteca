@@ -1,5 +1,6 @@
 package com.ysouz.sistemabiblioteca.repository;
 
+import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
@@ -8,6 +9,8 @@ import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,29 +85,28 @@ public class UsuarioRepository {
     }
 
     public Usuario buscaPorCpf(String cpf) {
-        String queryUsuario = "SELECT * FROM usuarios WHERE cpf = ?";
-        String queryEndereco = "SELECT * FROM enderecos WHERE cpf_usuario = ?";
+        String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
+                        "RIGHT JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "WHERE u.cpf = ?";
 
         try (Connection conexao =   Conexao.getConexao();
-             PreparedStatement statementUsuario = conexao.prepareStatement(queryUsuario);
-            PreparedStatement statementEndereco = conexao.prepareStatement(queryEndereco)) {
+             PreparedStatement statement = conexao.prepareStatement(query)) {
 
-            statementUsuario.setString(1, cpf);
-            statementEndereco.setString(1, cpf);
+            statement.setString(1, cpf);
 
-            try (ResultSet rsUsuario = statementUsuario.executeQuery();
-                ResultSet rsEndereco = statementEndereco.executeQuery()) {
+            try (ResultSet rs = statement.executeQuery()) {
 
-                if (rsUsuario.next()) {
-                    if (rsEndereco.next()) {
-                        String nome = rsUsuario.getString("nome");
-                        String CPF = rsUsuario.getString("cpf");
-                        Sexo sexo = Sexo.toSexo(rsUsuario.getString("sexo"));
+                if (rs.next()) {
+                        String rua = rs.getString("rua");
+                        String bairro = rs.getString("bairro");
+                        String numero = rs.getString("numero");
+                        String cep = rs.getString("cep");
 
-                        String rua = rsEndereco.getString("rua");
-                        String bairro = rsEndereco.getString("bairro");
-                        String numero = rsEndereco.getString("numero");
-                        String cep = rsEndereco.getString("cep");
+                    if (rua != null && bairro != null && numero != null && cep != null) {
+                        String nome = rs.getString("nome");
+                        String CPF = rs.getString("cpf");
+                        Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
 
                         return new Usuario(nome, CPF, sexo, new Endereco(rua, numero, bairro, cep));
 
@@ -115,6 +117,102 @@ public class UsuarioRepository {
             }
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar usuário no banco", e);
+        }
+    }
+
+    public List<Usuario> buscaPorNome(String nome) {
+        String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
+                "RIGHT JOIN usuarios as u " +
+                "ON u.cpf = e.cpf_usuario " +
+                "WHERE u.nome like ? " +
+                "ORDER BY u.nome";
+
+        List<Usuario> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)) {
+
+            statement.setString(1, "%" + nome + "%");
+
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    String rua = rs.getString("rua");
+                    String bairro = rs.getString("bairro");
+                    String numero = rs.getString("numero");
+                    String cep = rs.getString("cep");
+
+                    if (rua != null && bairro != null && numero != null && cep != null) {
+                        String NOME = rs.getString("nome");
+                        String cpf = rs.getString("cpf");
+                        Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
+
+                        lista.add(new Usuario(NOME, cpf, sexo, new Endereco(rua, numero, bairro, cep)));
+
+                    } else {
+                        String usuario = rs.getString("nome");
+                        throw new EnderecoNaoEncontradoException("Endereço do usuário (" + usuario
+                                + ") não encontrado no sistema.");
+                    }
+                }
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar usuário no banco", e);
+        }
+    }
+
+    public List<UsuarioDTO> listaUsuarios() {
+        String query = "SELECT * FROM usuarios";
+
+        List<UsuarioDTO> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query);
+            ResultSet rs = statement.executeQuery()) {
+
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
+
+                lista.add(new UsuarioDTO(nome, cpf, sexo));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar lista de usuários no banco", e);
+        }
+    }
+
+    public List<UsuarioDTO> listaUsuariosPendentes() {
+        String query = "SELECT u.* FROM emprestimos as e " +
+                        "JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "WHERE e.situacao = 'PENDENTE' " +
+                        "ORDER BY u.nome";
+
+        List<UsuarioDTO> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query);
+            ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                String cpf = rs.getString("cpf");
+                Sexo sexo = Sexo.toSexo(rs.getString("sexo"));
+
+                lista.add(new UsuarioDTO(nome, cpf, sexo));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar lista usuários no banco", e);
         }
     }
 }

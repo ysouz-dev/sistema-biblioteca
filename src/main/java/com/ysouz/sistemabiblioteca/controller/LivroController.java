@@ -7,6 +7,7 @@ import com.ysouz.sistemabiblioteca.model.Livro;
 import com.ysouz.sistemabiblioteca.exception.LivroJaCadastradoException;
 
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.List;
 
@@ -81,13 +82,11 @@ public class LivroController {
         String isbn = "";
         Livro livro = null;
 
-        int contador = 0;
-        while (contador == 0) {
+        while (Objects.isNull(livro)) {
             try {
                 System.out.print("ISBN: ");
                 isbn = this.scanner.nextLine();
                 LivroValidator.validaIsbn(isbn);
-                contador++;
 
                 livro = this.livroService.buscarLivroPorIsbn(isbn);
 
@@ -115,13 +114,11 @@ public class LivroController {
         String titulo = "";
         List<Livro> livros = null;
 
-        int contador = 0;
-        while (contador == 0) {
+        while (Objects.isNull(livros)) {
             try {
                 System.out.print("Título: ");
                 titulo = this.scanner.nextLine();
                 LivroValidator.validaTitulo(titulo);
-                contador++;
 
                 livros = this.livroService.buscarLivroPorTitulo(titulo);
 
@@ -150,13 +147,11 @@ public class LivroController {
         String autor = "";
         List<Livro> livros = null;
 
-        int contador = 0;
-        while (contador == 0) {
+        while (Objects.isNull(livros)) {
             try {
                 System.out.print("Autor: ");
                 autor = this.scanner.nextLine();
                 LivroValidator.validaAutor(autor);
-                contador++;
 
                 livros = this.livroService.buscarLivroPorAutor(autor);
 

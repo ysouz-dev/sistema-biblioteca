@@ -1,5 +1,8 @@
 package com.ysouz.sistemabiblioteca.controller;
 
+import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
+import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.service.UsuarioService;
@@ -7,6 +10,8 @@ import com.ysouz.sistemabiblioteca.validation.UsuarioValidator;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 import com.ysouz.sistemabiblioteca.exception.UsuarioJaCadastradoException;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class UsuarioController {
@@ -68,5 +73,105 @@ public class UsuarioController {
             }
         }
         System.out.println("Usuário cadastrado!");
+    }
+
+    public void buscaPorCpf() {
+
+        Usuario usuario = null;
+
+        while (Objects.isNull(usuario)) {
+            try {
+                System.out.print("Cpf do usuário: ");
+                String cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+
+                usuario = this.usuarioService.buscarUsuarioPorCpf(cpf);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+        System.out.println("=====================");
+        System.out.println("Nome: " + usuario.getNome());
+        System.out.println("Cpf: " + usuario.getCpf());
+        System.out.println("Sexo: " + usuario.getSexo().getNome());
+        System.out.println("CEP: " + usuario.getEndereco().getCep());
+        System.out.println("Rua: " + usuario.getEndereco().getRua());
+        System.out.println("Bairro: " + usuario.getEndereco().getBairro());
+        System.out.println("Número: " + usuario.getEndereco().getNumero());
+        System.out.println("=====================");
+
+    }
+
+    public void buscaPorNome() {
+
+        List<Usuario> lista = null;
+
+        while (Objects.isNull(lista)) {
+            try {
+                System.out.print("Nome do usuário: ");
+                String nome = this.scanner.nextLine();
+                UsuarioValidator.validaNome(nome);
+
+                lista = this.usuarioService.buscarUsuarioPorNome(nome);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        for (Usuario user : lista) {
+            System.out.println("=====================");
+            System.out.println("Nome: " + user.getNome());
+            System.out.println("Cpf: " + user.getCpf());
+            System.out.println("Sexo: " + user.getSexo().getNome());
+            System.out.println("CEP: " + user.getEndereco().getCep());
+            System.out.println("Rua: " + user.getEndereco().getRua());
+            System.out.println("Bairro: " + user.getEndereco().getBairro());
+            System.out.println("Número: " + user.getEndereco().getNumero());
+            System.out.println("=====================");
+        }
+    }
+
+    public void listaUsuariosPendentes() {
+        try {
+            List<UsuarioDTO> lista = this.usuarioService.listaUsuariosPendente();
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println("=====================");
+                System.out.printf("%d.%n", i + 1);
+                System.out.println("Nome: " + lista.get(i).getNome());
+                System.out.println("Cpf: " + lista.get(i).getCpf());
+                System.out.println("Sexo: " + lista.get(i).getSexo().getNome());
+                System.out.println("=====================");
+            }
+        } catch (UsuarioNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void listaUsuarios() {
+        try {
+            List<UsuarioDTO> lista = this.usuarioService.listaUsuarios();
+
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println("=====================");
+                System.out.printf("%d.%n", i + 1);
+                System.out.println("Nome: " + lista.get(i).getNome());
+                System.out.println("Cpf: " + lista.get(i).getCpf());
+                System.out.println("Sexo: " + lista.get(i).getSexo().getNome());
+                System.out.println("=====================");
+            }
+
+        } catch (UsuarioNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
