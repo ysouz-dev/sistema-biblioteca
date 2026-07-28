@@ -60,7 +60,7 @@ public class EmprestimoController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
 
-            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException | LivroNaoEncontradoException |
+            } catch (UsuarioNaoEncontradoException | DadoInconsistenteException | LivroNaoEncontradoException |
                      EmprestimoPendenteException | LivroJaEmprestadoException e) {
 
                 System.out.println(e.getMessage());
