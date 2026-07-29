@@ -167,4 +167,48 @@ public class EmprestimoController {
             System.out.println("=====================");
         }
     }
+
+    public void listaTodosEmprestimos() {
+        List<EmprestimoDTO> lista;
+        try {
+            lista = this.emprestimoService.listaTodosEmprestimos();
+        } catch (EmprestimoNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        System.out.println("========= Lista De Empréstimos =========");
+        for (EmprestimoDTO emprestimo : lista) {
+            System.out.printf("==========ID: %d===========%n", emprestimo.getId());
+            System.out.println("Usuário: " + emprestimo.getNomeUsuario());
+            System.out.println("Livro: " + emprestimo.getNomeLivro());
+            int dia = emprestimo.getData().getDayOfMonth();
+            int mes = emprestimo.getData().getMonthValue();
+            int ano = emprestimo.getData().getYear();
+            System.out.printf("Data: %d/%d/%d %n", dia, mes, ano);
+            System.out.println("Situação: " + emprestimo.getSituacao());
+            System.out.println("=====================");
+        }
+    }
+
+    public void listaTodosEmprestimosPendentes() {
+        List<EmprestimoDTO> lista;
+        try {
+            lista = this.emprestimoService.listaTodosEmprestimosPendentes();
+        } catch (EmprestimoNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        System.out.println("========= Lista De Empréstimos Pendentes =========");
+        for (EmprestimoDTO emprestimo : lista) {
+            System.out.printf("==========ID: %d===========%n", emprestimo.getId());
+            System.out.println("Usuário: " + emprestimo.getNomeUsuario());
+            System.out.println("Livro: " + emprestimo.getNomeLivro());
+            int dia = emprestimo.getData().getDayOfMonth();
+            int mes = emprestimo.getData().getMonthValue();
+            int ano = emprestimo.getData().getYear();
+            System.out.printf("Data: %d/%d/%d %n", dia, mes, ano);
+            System.out.println("Situação: " + emprestimo.getSituacao());
+            System.out.println("=====================");
+        }
+    }
 }
