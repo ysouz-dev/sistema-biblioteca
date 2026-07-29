@@ -152,6 +152,14 @@ public class Menu {
         this.usuarioController.listaUsuarios();
     }
 
+    public void buscaEmprestimoPendentePorCpf() {
+        this.emprestimoController.buscaEmprestimoPendentePorCpf();
+    }
+
+    public void buscaTodosEmprestimosPorCpf() {
+        this.emprestimoController.buscaTodosEmprestimosPorCpf();
+    }
+
     public void encerrarSistema() {
         System.out.println("Sistema encerrado, volte sempre!");
         this.scanner.close();
