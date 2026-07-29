@@ -3,13 +3,13 @@ package com.ysouz.sistemabiblioteca.controller;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Menu {
+public class MenuController {
     private final LivroController livroController;
     private final UsuarioController usuarioController;
     private final EmprestimoController emprestimoController;
     private final Scanner scanner;
 
-    public Menu() {
+    public MenuController() {
         this.scanner = new Scanner(System.in);
         this.usuarioController = new UsuarioController(this.scanner);
         this.livroController = new LivroController(this.scanner);

@@ -1,10 +1,10 @@
 package com.ysouz.sistemabiblioteca;
 
-import com.ysouz.sistemabiblioteca.controller.Menu;
+import com.ysouz.sistemabiblioteca.controller.MenuController;
 
 public class Main {
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        MenuController menu = new MenuController();
 
         int resposta = Integer.MIN_VALUE;
         while(resposta != 0) {
