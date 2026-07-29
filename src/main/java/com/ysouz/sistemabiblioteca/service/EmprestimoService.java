@@ -41,4 +41,20 @@ public class EmprestimoService {
         }
         return lista;
     }
+
+    public List<EmprestimoDTO> listaTodosEmprestimos() {
+        List<EmprestimoDTO> lista = this.emprestimoRepository.listaTodosEmprestimos();
+        if (lista.isEmpty()) {
+            throw new EmprestimoNaoEncontradoException("Náo há nenhum empréstimo registrado no sistema.");
+        }
+        return lista;
+    }
+
+    public List<EmprestimoDTO> listaTodosEmprestimosPendentes() {
+        List<EmprestimoDTO> lista = this.emprestimoRepository.listaTodosEmprestimosPendentes();
+        if (lista.isEmpty()) {
+            throw new EmprestimoNaoEncontradoException("Não há nenhum empréstimo pendente no sistema.");
+        }
+        return lista;
+    }
 }
