@@ -81,6 +81,28 @@ public class Main {
                     }
                     break;
 
+                case 7:
+                    int opcao3 = menu.menuEmprestimo();
+
+                    switch (opcao3) {
+                        case 1:
+                            menu.buscaEmprestimoPendentePorCpf();
+                            break;
+
+                        case 2:
+                            menu.buscaTodosEmprestimosPorCpf();
+                            break;
+
+                        case 3:
+                            menu.listaTodosEmprestimos();
+                            break;
+
+                        case 4:
+                            menu.listaTodosEmprestismosPendentes();
+                            break;
+                    }
+                    break;
+
                 case 0:
                     menu.encerrarSistema();
                     break;
