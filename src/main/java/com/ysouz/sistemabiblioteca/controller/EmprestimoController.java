@@ -4,12 +4,15 @@ import com.ysouz.sistemabiblioteca.exception.*;
 import com.ysouz.sistemabiblioteca.model.Emprestimo;
 import com.ysouz.sistemabiblioteca.model.Livro;
 import com.ysouz.sistemabiblioteca.model.Usuario;
+import com.ysouz.sistemabiblioteca.dto.EmprestimoDTO;
 import com.ysouz.sistemabiblioteca.service.EmprestimoService;
 import com.ysouz.sistemabiblioteca.service.UsuarioService;
 import com.ysouz.sistemabiblioteca.service.LivroService;
 import com.ysouz.sistemabiblioteca.validation.UsuarioValidator;
 import com.ysouz.sistemabiblioteca.validation.LivroValidator;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class EmprestimoController {
@@ -96,5 +99,72 @@ public class EmprestimoController {
             }
         }
         System.out.println("Devolução realizada!");
+    }
+
+    public void buscaEmprestimoPendentePorCpf() {
+        System.out.println("========= Busca de Empréstimo Pendente =========");
+
+        EmprestimoDTO emprestimo = null;
+
+        while (Objects.isNull(emprestimo)) {
+            try {
+                System.out.print("Cpf do usuário: ");
+                String cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+
+                emprestimo = this.emprestimoService.buscaEmprestimoPendentePorCpf(cpf);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (EmprestimoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        System.out.printf("==========ID: %d===========%n", emprestimo.getId());
+        System.out.println("Usuário: " + emprestimo.getNomeUsuario());
+        System.out.println("Livro: " + emprestimo.getNomeLivro());
+        int dia = emprestimo.getData().getDayOfMonth();
+        int mes = emprestimo.getData().getMonthValue();
+        int ano = emprestimo.getData().getYear();
+        System.out.printf("Data: %d/%d/%d %n", dia, mes, ano);
+        System.out.println("Situação: " + emprestimo.getSituacao());
+        System.out.println("=====================");
+    }
+
+    public void buscaTodosEmprestimosPorCpf() {
+        System.out.println("========= Busca Todos Empréstimo Por CPF =========");
+
+        List<EmprestimoDTO> lista = null;
+
+        while (Objects.isNull(lista)) {
+            try {
+                System.out.print("Cpf do usuário: ");
+                String cpf = this.scanner.nextLine();
+                UsuarioValidator.validaCpf(cpf);
+
+                lista = this.emprestimoService.buscaTodosEmprestimosPorCpf(cpf);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+
+            } catch (EmprestimoNaoEncontradoException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+        for (EmprestimoDTO emprestimo : lista) {
+            System.out.printf("==========ID: %d===========%n", emprestimo.getId());
+            System.out.println("Usuário: " + emprestimo.getNomeUsuario());
+            System.out.println("Livro: " + emprestimo.getNomeLivro());
+            int dia = emprestimo.getData().getDayOfMonth();
+            int mes = emprestimo.getData().getMonthValue();
+            int ano = emprestimo.getData().getYear();
+            System.out.printf("Data: %d/%d/%d %n", dia, mes, ano);
+            System.out.println("Situação: " + emprestimo.getSituacao());
+            System.out.println("=====================");
+        }
     }
 }
