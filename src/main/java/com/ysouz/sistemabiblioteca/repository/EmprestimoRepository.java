@@ -177,6 +177,36 @@ public class EmprestimoRepository {
         }
     }
 
+    public List<EmprestimoDTO> listaTodosEmprestimos() {
+        String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao FROM emprestimos as e " +
+                        "JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "JOIN livros as l " +
+                        "ON l.isbn = e.isbn_livro " +
+                        "ORDER BY u.nome";
+
+        List<EmprestimoDTO> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query);
+            ResultSet rs = statement.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String titulo = rs.getString("titulo");
+                LocalDate data = LocalDate.parse(rs.getString("data"));
+                String situacao = rs.getString("situacao");
+
+                lista.add(new EmprestimoDTO(id, nome, titulo, data, situacao));
+            }
+            return lista;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar lista de empréstimos no banco", e);
+        }
+    }
+
     public boolean containsEmprestimo(String cpf) {
         String query = "SELECT 1 FROM emprestimos WHERE cpf_usuario = ? and situacao = 'PENDENTE'";
 
