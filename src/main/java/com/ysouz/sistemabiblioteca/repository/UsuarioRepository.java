@@ -165,7 +165,7 @@ public class UsuarioRepository {
     }
 
     public List<UsuarioDTO> listaUsuarios() {
-        String query = "SELECT * FROM usuarios";
+        String query = "SELECT * FROM usuarios ORDER BY nome";
 
         List<UsuarioDTO> lista = new ArrayList<>();
 

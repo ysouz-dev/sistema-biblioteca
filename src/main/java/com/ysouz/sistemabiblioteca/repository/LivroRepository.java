@@ -73,7 +73,8 @@ public class LivroRepository {
     }
 
     public List<Livro> buscaPorTitulo(String titulo) {
-        String query = "SELECT * FROM livros WHERE titulo = ?";
+        String query = "SELECT * FROM livros WHERE titulo = ? " +
+                        "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query)) {
@@ -100,7 +101,8 @@ public class LivroRepository {
     }
 
     public List<Livro> buscaPorAutor(String autor) {
-        String query = "SELECT * FROM livros WHERE autor = ?";
+        String query = "SELECT * FROM livros WHERE autor = ? " +
+                        "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query)) {
@@ -127,7 +129,8 @@ public class LivroRepository {
     }
 
     public List<Livro> livrosDisponiveis() {
-        String query = "SELECT * FROM livros WHERE disponivel = true";
+        String query = "SELECT * FROM livros WHERE disponivel = true " +
+                        "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query);
@@ -151,7 +154,8 @@ public class LivroRepository {
     }
 
     public List<Livro> livrosPendentes() {
-        String query = "SELECT * FROM livros WHERE disponivel = false";
+        String query = "SELECT * FROM livros WHERE disponivel = false " +
+                        "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query);
