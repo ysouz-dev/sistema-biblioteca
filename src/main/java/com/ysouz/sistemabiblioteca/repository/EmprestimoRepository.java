@@ -7,6 +7,8 @@ import com.ysouz.sistemabiblioteca.model.Emprestimo;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
 import com.ysouz.sistemabiblioteca.dto.EmprestimoDTO;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.sql.Connection;
@@ -135,6 +137,40 @@ public class EmprestimoRepository {
                 }
                 throw new EmprestimoNaoEncontradoException("Empréstimo não encontrado no sistema.");
             }
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar empréstimo no banco", e);
+        }
+    }
+
+    public List<EmprestimoDTO> buscaTodosEmprestimosPorCpf(String cpf) {
+        String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao from emprestimos as e " +
+                        "JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "JOIN livros as l " +
+                        "ON l.isbn = e.isbn_livro " +
+                        "WHERE e.cpf_usuario = ?";
+
+        List<EmprestimoDTO> lista = new ArrayList<>();
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)) {
+
+            statement.setString(1, cpf);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while(rs.next()) {
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String titulo = rs.getString("titulo");
+                    LocalDate data = LocalDate.parse(rs.getString("data"));
+                    String situacao = rs.getString("situacao");
+
+                    lista.add(new EmprestimoDTO(id, nome, titulo, data, situacao));
+
+                }
+            }
+            return lista;
+
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar empréstimo no banco", e);
         }
