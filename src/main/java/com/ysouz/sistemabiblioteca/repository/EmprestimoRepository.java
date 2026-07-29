@@ -149,7 +149,7 @@ public class EmprestimoRepository {
                         "JOIN livros as l " +
                         "ON l.isbn = e.isbn_livro " +
                         "WHERE e.cpf_usuario = ? " +
-                        "ORDER BY u.nome";
+                        "ORDER BY e.id";
 
         List<EmprestimoDTO> lista = new ArrayList<>();
 
@@ -183,7 +183,7 @@ public class EmprestimoRepository {
                         "ON u.cpf = e.cpf_usuario " +
                         "JOIN livros as l " +
                         "ON l.isbn = e.isbn_livro " +
-                        "ORDER BY u.nome";
+                        "ORDER BY u.nome, e.data";
 
         List<EmprestimoDTO> lista = new ArrayList<>();
 
