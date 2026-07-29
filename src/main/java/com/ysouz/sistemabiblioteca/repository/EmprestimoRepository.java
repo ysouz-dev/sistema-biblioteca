@@ -1,10 +1,13 @@
 package com.ysouz.sistemabiblioteca.repository;
 
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
+import com.ysouz.sistemabiblioteca.exception.EmprestimoNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.exception.LivroNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Emprestimo;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
+import com.ysouz.sistemabiblioteca.dto.EmprestimoDTO;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -105,6 +108,36 @@ public class EmprestimoRepository {
             }
         }
 
+    }
+
+    public EmprestimoDTO buscaEmprestimoPendentePorCpf(String cpf) {
+        String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao from emprestimos as e " +
+                        "JOIN usuarios as u " +
+                        "ON u.cpf = e.cpf_usuario " +
+                        "JOIN livros as l " +
+                        "ON l.isbn = e.isbn_livro " +
+                        "WHERE e.cpf_usuario = ? and e.situacao = 'PENDENTE'";
+
+        try (Connection conexao = Conexao.getConexao();
+            PreparedStatement statement = conexao.prepareStatement(query)) {
+
+            statement.setString(1, cpf);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    String nome = rs.getString("nome");
+                    String livro = rs.getString("titulo");
+                    LocalDate data = LocalDate.parse(rs.getString("data"));
+                    String situacao = rs.getString("situacao");
+
+                    return new EmprestimoDTO(id, nome, livro, data, situacao);
+                }
+                throw new EmprestimoNaoEncontradoException("Empréstimo não encontrado no sistema.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Erro ao buscar empréstimo no banco", e);
+        }
     }
 
     public boolean containsEmprestimo(String cpf) {
