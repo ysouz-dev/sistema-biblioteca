@@ -38,7 +38,7 @@ public class UsuarioService {
 
     /**
      *
-     * Busca usuário de acordo com o cpf informado.
+     * Busca usuário conforme o cpf informado.
      * <p>
      * Caso algum usuário que seja encontrado não possua endereço cadastrado,
      * uma inconsistencia de dados é lançada, já que o endereço é obrigatório
@@ -55,7 +55,7 @@ public class UsuarioService {
     }
 
     /**
-     * Busca usuário de acordo com o nome informado (busca parcial)
+     * Busca usuário conforme o nome informado (busca parcial)
      * <p>
      * Caso algum usuário que seja encontrado não possua endereço cadastrado,
      * uma inconsistencia de dados é lançada, já que o endereço é obrigatório
