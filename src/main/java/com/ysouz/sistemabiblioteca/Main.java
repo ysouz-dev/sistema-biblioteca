@@ -1,10 +1,10 @@
 package com.ysouz.sistemabiblioteca;
 
-import com.ysouz.sistemabiblioteca.controller.Menu;
+import com.ysouz.sistemabiblioteca.controller.MenuController;
 
 public class Main {
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        MenuController menu = new MenuController();
 
         int resposta = Integer.MIN_VALUE;
         while(resposta != 0) {
@@ -77,6 +77,28 @@ public class Main {
                             break;
 
                         case 0:
+                            break;
+                    }
+                    break;
+
+                case 7:
+                    int opcao3 = menu.menuEmprestimo();
+
+                    switch (opcao3) {
+                        case 1:
+                            menu.buscaEmprestimoPendentePorCpf();
+                            break;
+
+                        case 2:
+                            menu.buscaTodosEmprestimosPorCpf();
+                            break;
+
+                        case 3:
+                            menu.listaTodosEmprestimos();
+                            break;
+
+                        case 4:
+                            menu.listaTodosEmprestismosPendentes();
                             break;
                     }
                     break;

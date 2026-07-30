@@ -1,11 +1,11 @@
 package com.ysouz.sistemabiblioteca.repository;
 
 import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
+import com.ysouz.sistemabiblioteca.exception.DadoInconsistenteException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
-import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 
@@ -111,7 +111,7 @@ public class UsuarioRepository {
                         return new Usuario(nome, CPF, sexo, new Endereco(rua, numero, bairro, cep));
 
                     }
-                    throw new EnderecoNaoEncontradoException("Endereço do usuário não encontrado no sistema.");
+                    throw new DadoInconsistenteException("Endereço do usuário não encontrado no sistema.");
                 }
                 throw new UsuarioNaoEncontradoException("Usuário não encontrado no sistema.");
             }
@@ -151,7 +151,7 @@ public class UsuarioRepository {
 
                     } else {
                         String usuario = rs.getString("nome");
-                        throw new EnderecoNaoEncontradoException("Endereço do usuário (" + usuario
+                        throw new DadoInconsistenteException("Endereço do usuário (" + usuario
                                 + ") não encontrado no sistema.");
                     }
                 }
@@ -165,7 +165,7 @@ public class UsuarioRepository {
     }
 
     public List<UsuarioDTO> listaUsuarios() {
-        String query = "SELECT * FROM usuarios";
+        String query = "SELECT * FROM usuarios ORDER BY nome";
 
         List<UsuarioDTO> lista = new ArrayList<>();
 

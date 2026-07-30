@@ -1,7 +1,7 @@
 package com.ysouz.sistemabiblioteca.controller;
 
 import com.ysouz.sistemabiblioteca.dto.UsuarioDTO;
-import com.ysouz.sistemabiblioteca.exception.EnderecoNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.DadoInconsistenteException;
 import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
@@ -90,7 +90,7 @@ public class UsuarioController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
 
-            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+            } catch (UsuarioNaoEncontradoException | DadoInconsistenteException e) {
                 System.out.println(e.getMessage());
                 return;
             }
@@ -122,7 +122,7 @@ public class UsuarioController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
 
-            } catch (UsuarioNaoEncontradoException | EnderecoNaoEncontradoException e) {
+            } catch (UsuarioNaoEncontradoException | DadoInconsistenteException e) {
                 System.out.println(e.getMessage());
                 return;
             }
