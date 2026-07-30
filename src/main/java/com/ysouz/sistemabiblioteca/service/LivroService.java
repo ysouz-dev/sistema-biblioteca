@@ -93,7 +93,7 @@ public class LivroService {
     }
 
     /**
-     * Lista todos os livros emprestados
+     * Lista todos os livros emprestados.
      *
      * @return uma lista dos livros emprestados para os usuários
      * @throws LivroNaoEncontradoException se nenhum livro tiver sido emprestado
