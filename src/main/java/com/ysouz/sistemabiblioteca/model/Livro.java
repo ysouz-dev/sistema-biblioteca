@@ -2,6 +2,9 @@ package com.ysouz.sistemabiblioteca.model;
 
 import com.ysouz.sistemabiblioteca.validation.LivroValidator;
 
+/**
+ * Representa um livro no sistema.
+ */
 public class Livro {
     private String titulo;
     private String autor;
@@ -9,6 +12,16 @@ public class Livro {
     private int anoLancamento;
     private boolean disponivel;
 
+    /**
+     * Cria um livro validando os dados informados.
+     *
+     * @param titulo título do livro
+     * @param autor autor do livro
+     * @param isbn código isbn do livro
+     * @param anoLancamento ano de lançamento do livro
+     * @throws IllegalArgumentException se algum dos dados informados forem inválidos
+     *         (título, autor, isbn ou ano de lançamento nulos/inválidos)
+     */
     public Livro (String titulo, String autor, String isbn, int anoLancamento) {
         LivroValidator.validaTitulo(titulo);
         LivroValidator.validaAutor(autor);
