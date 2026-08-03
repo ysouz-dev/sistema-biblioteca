@@ -17,9 +17,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-
+/**
+ * Repositório responsável pelos registros dos usuários no sistema.
+ */
 public class UsuarioRepository {
 
+    /**
+     * Resgitra um novo usuário no sistema, persistindo os seus dados
+     * e o seu endereço vinculado.
+     * <p>
+     * O endereço é salvo na mesma transação por ser tratado como parte
+     * inseparável do usuário (não existe existência própria de domínio)
+     *
+     * @param usuario usuário a ser salvo, incluindo o seu endereço
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados ou ao realizar rollback de transação
+     */
     public void salvar(Usuario usuario) {
         String queryUsuario = "INSERT INTO usuarios(nome, cpf, sexo) values (?, ?, ?)";
         String queryEndereco = "INSERT INTO enderecos(cpf_usuario, rua, bairro, numero, cep) values (?, ?, ?, ?, ?)";
@@ -67,6 +79,13 @@ public class UsuarioRepository {
         }
     }
 
+    /**
+     * Verifica se existe um usuário no sistema com o cpf informado.
+     *
+     * @param cpf cpf do usuário
+     * @return true se possuir um usuário com o cpf informado, false caso o contrário
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public boolean containsUsuario(String cpf) {
         String query = "SELECT 1 FROM usuarios WHERE cpf = ?";
 
@@ -84,6 +103,19 @@ public class UsuarioRepository {
         }
     }
 
+    /**
+     * Busca o usuário referente ao cpf informado.
+     * <p>
+     * A consulta utiliza RIGHT JOIN a partir de {@code enderecos}, garantindo
+     * que o usuário seja retornado mesmo sem endereço cadastrado, permitindo
+     * encontrar alguma inconsistência em vez de simplesmente omitir o registro.
+     *
+     * @param cpf cpf do usuário
+     * @return o usuário encontrado
+     * @throws DadoInconsistenteException se o usuário encontrado possuir o endereço nulo
+     * @throws UsuarioNaoEncontradoException se nenhum usuário for encontrado com o cpf informado
+     * @throws DatabaseException se ocorrer um erro ao
+     */
     public Usuario buscaPorCpf(String cpf) {
         String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
                         "RIGHT JOIN usuarios as u " +
@@ -120,6 +152,22 @@ public class UsuarioRepository {
         }
     }
 
+    /**
+     * Lista dos usuários encontrados referente ao nome informado (busca parcial).
+     * <p>
+     * Caso algum usuário que seja encontrado não possua endereço cadastrado,
+     * uma inconsistencia de dados é lançada, já que o endereço é obrigatório
+     * para os usuários do sistema.
+     * <p>
+     * A consulta utiliza RIGHT JOIN a partir de {@code enderecos}, garantindo
+     * que o usuário seja retornado mesmo sem endereço cadastrado, permitindo
+     * encontrar alguma inconsistência em vez de simplesmente omitir o registro.
+     *
+     * @param nome nome do usuário
+     * @return uma lista dos usuários encontrados
+     * @throws DadoInconsistenteException se o usuário encontrado possuir o endereço nulo
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<Usuario> buscaPorNome(String nome) {
         String query = "SELECT u.*, e.rua, e.bairro, e.numero, e.cep FROM enderecos as e " +
                 "RIGHT JOIN usuarios as u " +
@@ -164,6 +212,12 @@ public class UsuarioRepository {
         }
     }
 
+    /**
+     * Lista todos os usuários do sistema.
+     *
+     * @return uma lista com todos os usuários registrados
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<UsuarioDTO> listaUsuarios() {
         String query = "SELECT * FROM usuarios ORDER BY nome";
 
@@ -188,6 +242,16 @@ public class UsuarioRepository {
         }
     }
 
+    /**
+     * Lista todos os usuários com empréstimos pendentes.
+     * <p>
+     * A consulta utiliza JOIN com a tabela {@code emprestimos} para filtrar
+     * apenas usuários que possuam algum empréstimo com situação 'PENDENTE',
+     * já que essa informação não está disponível na tabela {@code usuarios}
+     *
+     * @return uma lista dos usuários com empréstimos pendentes
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<UsuarioDTO> listaUsuariosPendentes() {
         String query = "SELECT u.* FROM emprestimos as e " +
                         "JOIN usuarios as u " +
