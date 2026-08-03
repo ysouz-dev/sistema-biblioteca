@@ -1,10 +1,25 @@
 package com.ysouz.sistemabiblioteca.exception;
 
+/**
+ * Lançada quando ocorre alguma falha de comunicação com o banco de dados.
+ */
 public class DatabaseException extends RuntimeException {
-    public DatabaseException (String message) {
+
+    /**
+     * Cria a exceção com uma mensagem de erro.
+     *
+     * @param message descrição do erro
+     */
+    public DatabaseException(String message) {
         super(message);
     }
 
+    /**
+     * Cria a exceção com uma mensagem de erro e a causa original do erro.
+     *
+     * @param message descrição do erro
+     * @param cause exceção original que motivou este erro
+     */
     public DatabaseException(String message, Throwable cause) {
         super(message, cause);
     }
