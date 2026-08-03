@@ -16,8 +16,18 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Repositório responsável pelos registros de empréstimos do sistema.
+ */
 public class EmprestimoRepository {
 
+    /**
+     * Registra um novo empréstimo no sistema, vinculando o usuário ao livro
+     * informado e atualizando a disponibilidade do livro para indisponível.
+     *
+     * @param emprestimo empréstimo a ser registrado
+     * @throws DatabaseException se ocorrer erro ao acessar banco de dados ou ao realizar rollback da transação
+     */
     public void emprestar(Emprestimo emprestimo) {
         String queryEmprestimo = "INSERT INTO emprestimos VALUES (default, ?, ?, ?, default)";
         String queryLivro = "UPDATE livros SET disponivel = false WHERE isbn = ?";
@@ -60,6 +70,20 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Realiza devolução do empréstimo pendente vinculado ao cpf informado,
+     * atualizando a situação do empréstimo para devolvido e a disponibilidade
+     * do livro para disponível.
+     * <p>
+     * A atualização do livro acontece antes da atualização do empréstimo,
+     * pois depende do vínculo com um empréstimo ainda em situação 'PENDENTE'.
+     * Inverter essa ordem impede a consulta de localizar o empréstimo correto.
+     *
+     * @param cpf cpf do usuário
+     * @throws LivroNaoEncontradoException se não houver empréstimo pendente
+     *          vinculado ao cpf informado
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados ou ao realizar rollback de transação
+     */
     public void devolver(String cpf) {
         String queryLivro = "UPDATE livros SET disponivel = true WHERE isbn = (SELECT Isbn_livro from emprestimos WHERE" +
                 " cpf_usuario = ? and situacao = 'PENDENTE')";
@@ -112,6 +136,18 @@ public class EmprestimoRepository {
 
     }
 
+    /**
+     * Busca o empréstimo pendente referente ao cpf informado.
+     * <p>
+     * A consulta utiliza JOIN para trazer o nome do usuário e título do livro
+     * em uma query única, evitando múltiplas consultas ao banco.
+     *
+     * @param cpf cpf do usuário
+     * @return dados do empréstimo pendente encontrado, incluindo nome do usuário e título do livro
+     * @throws EmprestimoNaoEncontradoException se não houver nenhum empréstimo pendente
+     *          para o cpf informado no sistema
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public EmprestimoDTO buscaEmprestimoPendentePorCpf(String cpf) {
         String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao from emprestimos as e " +
                         "JOIN usuarios as u " +
@@ -142,6 +178,13 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Busca todos os empréstimos do cpf informado, incluindo os pendentes e devolvidos.
+     *
+     * @param cpf cpf do usuário
+     * @return uma lista com os dados dos empréstimos encontrados
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<EmprestimoDTO> buscaTodosEmprestimosPorCpf(String cpf) {
         String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao from emprestimos as e " +
                         "JOIN usuarios as u " +
@@ -177,6 +220,12 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Lista todos os empréstimos registrados no sistema.
+     *
+     * @return uma lista com os dados de todos os empréstimos registrados
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<EmprestimoDTO> listaTodosEmprestimos() {
         String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao FROM emprestimos as e " +
                         "JOIN usuarios as u " +
@@ -207,6 +256,12 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Lista todos os empréstimos pendentes do sistema.
+     *
+     * @return uma lista com os dados de todos os empréstimos pendentes do sistema
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public List<EmprestimoDTO> listaTodosEmprestimosPendentes() {
         String query = "SELECT e.id, u.nome, l.titulo, e.data, e.situacao FROM emprestimos as e " +
                         "JOIN usuarios as u " +
@@ -238,6 +293,13 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Verifica se existe um empréstimo pendente com o cpf informado.
+     *
+     * @param cpf cpf do usuário
+     * @return true se existir um empréstimo pendente para o cpf informado, false caso o contrário
+     * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
+     */
     public boolean containsEmprestimo(String cpf) {
         String query = "SELECT 1 FROM emprestimos WHERE cpf_usuario = ? and situacao = 'PENDENTE'";
 
