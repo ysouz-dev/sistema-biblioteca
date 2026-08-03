@@ -34,7 +34,7 @@ public class LivroService {
     }
 
     /**
-     * Busca um livro de acordo com o isbn informado.
+     * Busca um livro conforme o isbn informado.
      *
      * @param isbn isbn do livro a ser buscado
      * @return livro encontrado referente a busca pelo código isbn
@@ -46,10 +46,10 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros de acordo com o autor informado.
+     * Busca os livros conforme o autor informado.
      *
      * @param autor autor dos livros a serem buscados
-     * @return uma lista dos livro encontrados referente a busca pelo nome do autor
+     * @return uma lista dos livros encontrados referente a busca pelo nome do autor
      * @throws LivroNaoEncontradoException se nenhum livro for encontrado com o autor informado
      * @throws DatabaseException se ocorrer um erro ao acessar o banco de dados
      */
@@ -62,7 +62,7 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros de acordo com o título informado.
+     * Busca os livros conforme o título informado.
      *
      * @param titulo título dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo título
