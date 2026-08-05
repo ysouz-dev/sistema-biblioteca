@@ -20,9 +20,9 @@ Sistema de gerenciamento de biblioteca desenvolvido em Java com arquitetura em c
 
 # 🛠 Tecnologias
 - Java 21
-- Maven
+- Maven 3.9.16
 - JDBC
-- MySQL
+- PostgreSQL 17
 - Programação Orientada a Objetos
 - Arquitetura em Camadas
 
@@ -58,27 +58,40 @@ O projeto foi desenvolvido seguindo o padrão de separação de responsabilidade
 
 ### Pré-requisitos
 - Java 21
-- Maven
-- MySQL
+- Maven 3.9+
+- PostgreSQL 17+
 
-**1. Execute o script de criação das tabelas:**
+### **1. Execute o script de criação das tabelas:**
 ```
-mysql -u root -p < database/schema.sql
+psql -U seu_usuario -d seu_banco -f database/schema.sql
 ```
 
-**2. Configure as credencias de conexão**
+### **ou**
+
+### **1.1 Abra o pgAdmin(ou outro cliente PostgreSQL) e execute:**
+
+```CREATE DATABASE seu_banco;```
+
+### **1.2 Execute o script SQL:**
+
+execute o arquivo `schema.sql`
+
+
+## **2. Configure as credencias de conexão**
 
 Crie o arquivo `src/main/resources/database.properties` baseado no exemplo:
 ```
 Properties
 
-database.url = jdbc:mysql://localhost:3306/biblioteca
+database.url = jdbc:postgresql://localhost:5432/seu_banco
 database.user = seu_usuario
 database.pass = sua_senha
 ```
 
 > O arquivo `database.properties` está no `gitignore` e não é versionado por conter dados sensíveis.
 > Mas disponibilizei um exemplo com `databaseExample.properties`
+
+---
 
 # 🧑‍💻 Como Rodar
 
