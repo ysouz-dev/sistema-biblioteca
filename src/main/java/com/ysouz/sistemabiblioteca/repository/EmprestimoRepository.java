@@ -60,18 +60,12 @@ public class EmprestimoRepository {
             rollback(conexao);
             throw new DatabaseException("Erro ao salvar empréstimo no banco", e);
 
-        } catch (LivroJaEmprestadoException e) {
+        } catch (Exception e) {
             rollback(conexao);
             throw e;
 
         } finally {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.close();
-                } catch (SQLException ex) {
-                    System.err.println("Erro ao fechar conexão com o banco: " + ex.getMessage());
-                }
-            }
+            fecharConexao(conexao);
         }
     }
 
@@ -123,18 +117,12 @@ public class EmprestimoRepository {
             rollback(conexao);
             throw new DatabaseException("Erro ao salvar devolução no banco.", e);
 
-        } catch (LivroNaoEncontradoException e) {
+        } catch (Exception e) {
             rollback(conexao);
             throw e;
 
         } finally {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.close();
-                } catch (SQLException ex) {
-                    System.err.println("Erro ao fechar conexão com o banco.");
-                }
-            }
+            fecharConexao(conexao);
         }
 
     }
@@ -331,6 +319,21 @@ public class EmprestimoRepository {
                 conexao.rollback();
             } catch (SQLException e) {
                 throw new DatabaseException("Erro ao realizar rollback", e);
+            }
+        }
+    }
+
+    /**
+     * Fecha conexão com o banco de dados.
+     *
+     * @param conexao conexão com o banco de dados
+     */
+    private void fecharConexao(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.close();
+            } catch (SQLException ex) {
+                System.err.println("Erro ao fechar conexão com o banco.");
             }
         }
     }
