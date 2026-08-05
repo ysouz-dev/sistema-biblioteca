@@ -14,14 +14,4 @@ public class LivroJaEmprestadoException extends RuntimeException {
     public LivroJaEmprestadoException(String message) {
         super(message);
     }
-
-    /**
-     * Cria a exceção com uam mensagem de erro e a causa original do erro.
-     *
-     * @param message descrição do erro
-     * @param cause exceção original que motivou este erro
-     */
-    public LivroJaEmprestadoException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

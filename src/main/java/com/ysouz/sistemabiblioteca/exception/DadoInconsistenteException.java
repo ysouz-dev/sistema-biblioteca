@@ -19,14 +19,4 @@ public class DadoInconsistenteException extends RuntimeException {
     public DadoInconsistenteException(String message) {
         super(message);
     }
-
-    /**
-     * Cria a exceção com uma mensagem de erro e a causa original do erro.
-     *
-     * @param message descrição do erro
-     * @param cause exceção original que motivou este erro
-     */
-    public DadoInconsistenteException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
