@@ -295,4 +295,19 @@ public class UsuarioRepository {
             }
         }
     }
+
+    /**
+     * Fecha conexão do banco de dados.
+     *
+     * @param conexao conexão com o banco de dados
+     */
+    private void fecharConexao(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.close();
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar conexao com o banco de dados" + e.getMessage());;
+            }
+        }
+    }
 }
