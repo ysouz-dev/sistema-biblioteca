@@ -6,7 +6,7 @@ import com.ysouz.sistemabiblioteca.validation.EnderecoValidator;
 import java.util.Scanner;
 
 public class EnderecoController {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public EnderecoController(Scanner scanner) {
         this.scanner = scanner;

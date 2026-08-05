@@ -33,7 +33,7 @@ public class UsuarioRepository {
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados ou ao realizar rollback de transação
      */
     public void salvar(Usuario usuario) {
-        String queryUsuario = "INSERT INTO usuarios(nome, cpf, sexo) values (?, ?, ?)";
+        String queryUsuario = "INSERT INTO usuarios(nome, cpf, sexo) values (?, ?, ?::genero)";
         String queryEndereco = "INSERT INTO enderecos(cpf_usuario, rua, bairro, numero, cep) values (?, ?, ?, ?, ?)";
 
         Connection conexao = null;
@@ -58,24 +58,16 @@ public class UsuarioRepository {
             }
             conexao.commit();
 
-        } catch (Exception e) {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException ex) {
-                    throw new DatabaseException("Erro ao realizar rollback", ex);
-                }
-            }
+        } catch (SQLException e) {
+            rollback(conexao);
             throw new DatabaseException("Erro ao salvar usuário", e);
 
+        } catch (Exception e) {
+            rollback(conexao);
+            throw e;
+
         } finally {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.close();
-                } catch (SQLException e) {
-                    System.err.println("Erro ao fechar conexão com o banco" + e.getMessage());
-                }
-            }
+            fecharConexao(conexao);
         }
     }
 
@@ -277,6 +269,37 @@ public class UsuarioRepository {
 
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao buscar lista usuários no banco", e);
+        }
+    }
+
+    /**
+     * Realiza rollback na conexão informada.
+     *
+     * @param conexao conexão com o banco de dados
+     * @throws DatabaseException se ocorrer erro ao realizar rollback
+     */
+    private void rollback(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.rollback();
+            } catch (SQLException e) {
+                throw new DatabaseException("Erro ao realizar rollback", e);
+            }
+        }
+    }
+
+    /**
+     * Fecha conexão do banco de dados.
+     *
+     * @param conexao conexão com o banco de dados
+     */
+    private void fecharConexao(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.close();
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar conexao com o banco de dados" + e.getMessage());;
+            }
         }
     }
 }

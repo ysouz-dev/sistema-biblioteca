@@ -28,7 +28,7 @@ public class LivroService {
      */
     public void cadastrarLivro(Livro livro) {
         if (this.livroRepository.containsLivro(livro.getIsbn())) {
-            throw new LivroJaCadastradoException("Livro já cadastrado no sistema.");
+            throw new LivroJaCadastradoException("Livro com esse isbn já cadastrado no sistema.");
         }
         this.livroRepository.salvar(livro);
     }
@@ -46,7 +46,7 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros conforme o autor informado.
+     * Busca os livros conforme o autor informado (Busca parcial).
      *
      * @param autor autor dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo nome do autor
@@ -62,7 +62,7 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros conforme o título informado.
+     * Busca os livros conforme o título informado (Busca parcial).
      *
      * @param titulo título dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo título
@@ -99,10 +99,10 @@ public class LivroService {
      * @throws LivroNaoEncontradoException se nenhum livro tiver sido emprestado
      * @throws DatabaseException se ocorrer um erro ao acessar
      */
-    public List<Livro> listaLivrosPendentes() {
-        List<Livro> lista = this.livroRepository.livrosPendentes();
+    public List<Livro> listaLivrosEmprestados() {
+        List<Livro> lista = this.livroRepository.livrosEmprestados();
         if (lista.isEmpty()) {
-            throw new LivroNaoEncontradoException("Não há nenhum livro pendente no sistema.");
+            throw new LivroNaoEncontradoException("Não há nenhum livro emprestado no sistema.");
         }
         return lista;
     }

@@ -9,9 +9,9 @@ import java.util.Objects;
  * Representa o empréstimo de um {@link Livro} a um {@link Usuario} do sistema.
  */
 public class Emprestimo {
-    private Usuario usuario;
-    private Livro livro;
-    private LocalDate data;
+    private final Usuario usuario;
+    private final Livro livro;
+    private final LocalDate data;
 
     /**
      * Cria um empréstimo validando os dados informados.
@@ -29,7 +29,7 @@ public class Emprestimo {
             throw new IllegalArgumentException("O livro não pode ser nulo.");
         }
         if (!livro.isDisponivel()) {
-            throw new LivroJaEmprestadoException("Um livro indisponivel não pode ser emprestado");
+            throw new LivroJaEmprestadoException("Livro indisponivel! Não pode ser emprestado.");
         }
 
         this.usuario = usuario;

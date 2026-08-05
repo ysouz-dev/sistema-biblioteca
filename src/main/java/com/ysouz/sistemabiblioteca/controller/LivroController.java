@@ -65,12 +65,16 @@ public class LivroController {
 
                 break;
 
-            } catch (IllegalArgumentException | LivroJaCadastradoException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
 
             } catch (InputMismatchException e) {
                 System.out.println("Digite apenas números para o ano de lançamento.");
                 this.scanner.nextLine();
+
+            } catch (LivroJaCadastradoException e) {
+                System.out.println(e.getMessage());
+                return;
             }
         }
         System.out.println("Livro cadastrado!");
@@ -85,7 +89,7 @@ public class LivroController {
         while (Objects.isNull(livro)) {
             try {
                 System.out.print("ISBN: ");
-                isbn = this.scanner.nextLine();
+                isbn = this.scanner.nextLine().strip();
                 LivroValidator.validaIsbn(isbn);
 
                 livro = this.livroService.buscarLivroPorIsbn(isbn);
@@ -117,7 +121,7 @@ public class LivroController {
         while (Objects.isNull(livros)) {
             try {
                 System.out.print("Título: ");
-                titulo = this.scanner.nextLine();
+                titulo = this.scanner.nextLine().strip().toUpperCase();
                 LivroValidator.validaTitulo(titulo);
 
                 livros = this.livroService.buscarLivroPorTitulo(titulo);
@@ -150,7 +154,7 @@ public class LivroController {
         while (Objects.isNull(livros)) {
             try {
                 System.out.print("Autor: ");
-                autor = this.scanner.nextLine();
+                autor = this.scanner.nextLine().strip().toUpperCase();
                 LivroValidator.validaAutor(autor);
 
                 livros = this.livroService.buscarLivroPorAutor(autor);
@@ -186,10 +190,10 @@ public class LivroController {
         }
     }
 
-    public void listaLivrosPendentes() {
-        System.out.println("========= Livros Pendentes =========");
+    public void listaLivrosEmprestados() {
+        System.out.println("========= Livros Emprestados =========");
         try {
-            List<Livro> lista = this.livroService.listaLivrosPendentes();
+            List<Livro> lista = this.livroService.listaLivrosEmprestados();
             for (int i = 0; i < lista.size(); i++) {
                 System.out.printf("%d - %s | Autor: %s %n", i + 1, lista.get(i).getTitulo(), lista.get(i).getAutor());
             }

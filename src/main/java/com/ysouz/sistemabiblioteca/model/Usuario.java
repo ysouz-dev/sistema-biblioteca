@@ -7,10 +7,10 @@ import com.ysouz.sistemabiblioteca.enums.Sexo;
  * Representa um usuário no sistema.
  */
 public class Usuario {
-    private String nome;
-    private Sexo sexo;
-    private String cpf;
-    private Endereco endereco;
+    private final String nome;
+    private final Sexo sexo;
+    private final String cpf;
+    private final Endereco endereco;
 
     /**
      * Cria um usuário validando os dados informados.

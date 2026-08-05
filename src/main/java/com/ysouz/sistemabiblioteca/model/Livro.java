@@ -6,11 +6,11 @@ import com.ysouz.sistemabiblioteca.validation.LivroValidator;
  * Representa um livro no sistema.
  */
 public class Livro {
-    private String titulo;
-    private String autor;
-    private String isbn;
-    private int anoLancamento;
-    private boolean disponivel;
+    private final String titulo;
+    private final String autor;
+    private final String isbn;
+    private final int anoLancamento;
+    private final boolean disponivel;
 
     /**
      * Cria um livro validando os dados informados.

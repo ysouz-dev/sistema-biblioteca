@@ -16,8 +16,8 @@ import java.util.Scanner;
 
 public class UsuarioController {
     private final Scanner scanner;
-    private EnderecoController enderecoController;
-    private UsuarioService usuarioService;
+    private final EnderecoController enderecoController;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(Scanner scanner) {
         this.scanner = scanner;
@@ -114,7 +114,7 @@ public class UsuarioController {
         while (Objects.isNull(lista)) {
             try {
                 System.out.print("Nome do usuário: ");
-                String nome = this.scanner.nextLine();
+                String nome = this.scanner.nextLine().strip().toUpperCase();
                 UsuarioValidator.validaNome(nome);
 
                 lista = this.usuarioService.buscarUsuarioPorNome(nome);
