@@ -319,6 +319,12 @@ public class EmprestimoRepository {
         }
     }
 
+    /**
+     * Realiza rollback na conexão que for informada.
+     *
+     * @param conexao conexão com o banco de dados
+     * @throws DatabaseException se ocorrer erro ao realizar rollback
+     */
     private void rollback(Connection conexao) {
         if (!Objects.isNull(conexao)) {
             try {
