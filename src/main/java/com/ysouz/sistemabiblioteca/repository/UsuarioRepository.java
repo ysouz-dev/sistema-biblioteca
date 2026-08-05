@@ -279,4 +279,20 @@ public class UsuarioRepository {
             throw new DatabaseException("Erro ao buscar lista usuários no banco", e);
         }
     }
+
+    /**
+     * Realiza rollback na conexão informada.
+     *
+     * @param conexao conexão com o banco de dados
+     * @throws DatabaseException se ocorrer erro ao realizar rollback
+     */
+    private void rollback(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.rollback();
+            } catch (SQLException e) {
+                throw new DatabaseException("Erro ao realizar rollback", e);
+            }
+        }
+    }
 }
