@@ -99,10 +99,10 @@ public class LivroService {
      * @throws LivroNaoEncontradoException se nenhum livro tiver sido emprestado
      * @throws DatabaseException se ocorrer um erro ao acessar
      */
-    public List<Livro> listaLivrosPendentes() {
-        List<Livro> lista = this.livroRepository.livrosPendentes();
+    public List<Livro> listaLivrosEmprestados() {
+        List<Livro> lista = this.livroRepository.livrosEmprestados();
         if (lista.isEmpty()) {
-            throw new LivroNaoEncontradoException("Não há nenhum livro pendente no sistema.");
+            throw new LivroNaoEncontradoException("Não há nenhum livro emprestado no sistema.");
         }
         return lista;
     }

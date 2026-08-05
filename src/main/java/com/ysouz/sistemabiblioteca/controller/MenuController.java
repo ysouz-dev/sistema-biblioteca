@@ -54,7 +54,7 @@ public class MenuController {
         System.out.println("[ 2 ] Busca Por ISBN");
         System.out.println("[ 3 ] Busca Por Autor");
         System.out.println("[ 4 ] Livros Disponíveis");
-        System.out.println("[ 5 ] Livros Pendentes");
+        System.out.println("[ 5 ] Livros Emprestados");
         System.out.println("[ 0 ] Voltar");
         System.out.println("-".repeat(25));
 
@@ -159,8 +159,8 @@ public class MenuController {
         this.livroController.listaLivrosDisponiveis();
     }
 
-    public void listaLivrosPendentes() {
-        this.livroController.listaLivrosPendentes();
+    public void listaLivrosEmprestados() {
+        this.livroController.listaLivrosEmprestados();
     }
 
     public void buscaPorCpf() {

@@ -203,7 +203,7 @@ public class LivroRepository {
      * @return uma lista dos livros emprestados
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
      */
-    public List<Livro> livrosPendentes() {
+    public List<Livro> livrosEmprestados() {
         String query = "SELECT * FROM livros WHERE disponivel = false " +
                         "ORDER BY titulo";
 
@@ -224,7 +224,7 @@ public class LivroRepository {
             return lista;
 
         } catch (SQLException e) {
-            throw new DatabaseException("Erro ao buscar livros pendentes no banco", e);
+            throw new DatabaseException("Erro ao buscar livros emprestados no banco", e);
         }
     }
 }
