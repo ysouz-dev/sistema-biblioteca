@@ -10,8 +10,8 @@ public enum Sexo {
     FEMININO("FEMININO","F"),
     INDEFINIDO("INDEFINIDO", "I");
 
-    private String nome;
-    private String sigla;
+    private final String nome;
+    private final String sigla;
 
     Sexo(String nome, String sigla) {
         this.nome = nome;

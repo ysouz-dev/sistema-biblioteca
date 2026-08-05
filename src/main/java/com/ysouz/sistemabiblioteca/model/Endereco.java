@@ -6,10 +6,10 @@ import com.ysouz.sistemabiblioteca.validation.EnderecoValidator;
  * Representa um endereço de um {@link Usuario} do sistema.
  */
 public class Endereco {
-    private String rua;
-    private String bairro;
-    private String numero;
-    private String cep;
+    private final String rua;
+    private final String bairro;
+    private final String numero;
+    private final String cep;
 
     /**
      * Cria um Endereço validando os dados informados.

@@ -16,7 +16,7 @@ import java.util.List;
  * (com obrigatoriedade de endereço).
  */
 public class UsuarioService {
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public UsuarioService() {
         this.usuarioRepository = new UsuarioRepository();

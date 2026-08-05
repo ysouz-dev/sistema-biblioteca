@@ -16,8 +16,8 @@ import java.util.Scanner;
 
 public class UsuarioController {
     private final Scanner scanner;
-    private EnderecoController enderecoController;
-    private UsuarioService usuarioService;
+    private final EnderecoController enderecoController;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(Scanner scanner) {
         this.scanner = scanner;
