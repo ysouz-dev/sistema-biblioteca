@@ -14,7 +14,7 @@ Sistema de gerenciamento de biblioteca desenvolvido em Java com arquitetura em c
 - Registro de devoluções
 - Validações de regras de negócio
 - Tratamento de exceções personalizadas
-- Persistência dos dados em banco MySQL
+- Persistência dos dados em banco PostgreSQL
 
 ---
 
