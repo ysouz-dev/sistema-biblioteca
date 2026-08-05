@@ -119,15 +119,13 @@ public class EmprestimoRepository {
             }
             conexao.commit();
 
-        } catch (Exception e) {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException ex) {
-                    throw new DatabaseException("Erro ao realizar rollback.", ex);
-                }
-            }
+        } catch (SQLException e) {
+            rollback(conexao);
             throw new DatabaseException("Erro ao salvar devolução no banco.", e);
+
+        } catch (LivroNaoEncontradoException e) {
+            rollback(conexao);
+            throw e;
 
         } finally {
             if (!Objects.isNull(conexao)) {
