@@ -33,7 +33,7 @@ public class UsuarioRepository {
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados ou ao realizar rollback de transação
      */
     public void salvar(Usuario usuario) {
-        String queryUsuario = "INSERT INTO usuarios(nome, cpf, sexo) values (?, ?, ?)";
+        String queryUsuario = "INSERT INTO usuarios(nome, cpf, sexo) values (?, ?, ?::genero)";
         String queryEndereco = "INSERT INTO enderecos(cpf_usuario, rua, bairro, numero, cep) values (?, ?, ?, ?, ?)";
 
         Connection conexao = null;
