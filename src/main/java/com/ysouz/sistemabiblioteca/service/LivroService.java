@@ -46,7 +46,7 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros conforme o autor informado.
+     * Busca os livros conforme o autor informado (Busca parcial).
      *
      * @param autor autor dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo nome do autor
@@ -62,7 +62,7 @@ public class LivroService {
     }
 
     /**
-     * Busca os livros conforme o título informado.
+     * Busca os livros conforme o título informado (Busca parcial).
      *
      * @param titulo título dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo título
