@@ -114,7 +114,7 @@ public class UsuarioController {
         while (Objects.isNull(lista)) {
             try {
                 System.out.print("Nome do usuário: ");
-                String nome = this.scanner.nextLine();
+                String nome = this.scanner.nextLine().strip().toUpperCase();
                 UsuarioValidator.validaNome(nome);
 
                 lista = this.usuarioService.buscarUsuarioPorNome(nome);
