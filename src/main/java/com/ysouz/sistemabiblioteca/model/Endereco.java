@@ -29,7 +29,7 @@ public class Endereco {
 
         this.rua = rua.strip().toUpperCase();
         this.bairro = bairro.strip().toUpperCase();
-        this.numero = numero;
+        this.numero = numero.strip().toUpperCase();
         this.cep = cep.strip();
     }
 
