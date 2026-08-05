@@ -97,20 +97,20 @@ public class LivroRepository {
     }
 
     /**
-     * Busca os livros conforme o título informado.
+     * Busca os livros conforme o título informado (Busca parcial).
      *
      * @param titulo título dos livros a serem buscados
      * @return uma lista dos livros encontrados referente a busca pelo título
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
      */
     public List<Livro> buscaPorTitulo(String titulo) {
-        String query = "SELECT * FROM livros WHERE titulo = ? " +
+        String query = "SELECT * FROM livros WHERE titulo LIKE ? " +
                         "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query)) {
 
-            statement.setString(1, titulo);
+            statement.setString(1, "%" + titulo + "%");
 
             try (ResultSet rs = statement.executeQuery()) {
                 List<Livro> lista = new ArrayList<>();
@@ -132,20 +132,20 @@ public class LivroRepository {
     }
 
     /**
-     * Busca os livros conforme o autor informado.
+     * Busca os livros conforme o autor informado (busca parcial).
      *
      * @param autor nome do autor
      * @return uma lista dos livros encontrados referente a busca pelo nome do autor
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
      */
     public List<Livro> buscaPorAutor(String autor) {
-        String query = "SELECT * FROM livros WHERE autor = ? " +
+        String query = "SELECT * FROM livros WHERE autor LIKE ? " +
                         "ORDER BY titulo";
 
         try (Connection conexao = Conexao.getConexao();
             PreparedStatement statement = conexao.prepareStatement(query)) {
 
-            statement.setString(1, autor);
+            statement.setString(1, "%" + autor + "%");
 
             try (ResultSet rs = statement.executeQuery()) {
                 List<Livro> lista = new ArrayList<>();
@@ -203,7 +203,7 @@ public class LivroRepository {
      * @return uma lista dos livros emprestados
      * @throws DatabaseException se ocorrer erro ao acessar o banco de dados
      */
-    public List<Livro> livrosPendentes() {
+    public List<Livro> livrosEmprestados() {
         String query = "SELECT * FROM livros WHERE disponivel = false " +
                         "ORDER BY titulo";
 
@@ -224,7 +224,7 @@ public class LivroRepository {
             return lista;
 
         } catch (SQLException e) {
-            throw new DatabaseException("Erro ao buscar livros pendentes no banco", e);
+            throw new DatabaseException("Erro ao buscar livros emprestados no banco", e);
         }
     }
 }

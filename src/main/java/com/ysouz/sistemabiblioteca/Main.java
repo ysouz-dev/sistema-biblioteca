@@ -48,7 +48,7 @@ public class Main {
                             break;
 
                         case 5:
-                            menu.listaLivrosPendentes();
+                            menu.listaLivrosEmprestados();
                             break;
 
                         case 0:

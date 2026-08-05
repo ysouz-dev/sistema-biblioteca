@@ -12,15 +12,4 @@ public class LivroNaoEncontradoException extends RuntimeException {
     public LivroNaoEncontradoException(String message) {
         super(message);
     }
-
-    /**
-     * Cria a exceção com uma mensagem de erro e a causa original do erro.
-     *
-     * @param message descrição do erro
-     * @param cause exceção original que motivou este erro
-     */
-    public LivroNaoEncontradoException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

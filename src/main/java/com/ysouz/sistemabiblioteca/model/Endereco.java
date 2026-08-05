@@ -6,10 +6,10 @@ import com.ysouz.sistemabiblioteca.validation.EnderecoValidator;
  * Representa um endereço de um {@link Usuario} do sistema.
  */
 public class Endereco {
-    private String rua;
-    private String bairro;
-    private String numero;
-    private String cep;
+    private final String rua;
+    private final String bairro;
+    private final String numero;
+    private final String cep;
 
     /**
      * Cria um Endereço validando os dados informados.
@@ -29,7 +29,7 @@ public class Endereco {
 
         this.rua = rua.strip().toUpperCase();
         this.bairro = bairro.strip().toUpperCase();
-        this.numero = numero;
+        this.numero = numero.strip().toUpperCase();
         this.cep = cep.strip();
     }
 
