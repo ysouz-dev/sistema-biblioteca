@@ -2,6 +2,7 @@ package com.ysouz.sistemabiblioteca.repository;
 
 import com.ysouz.sistemabiblioteca.exception.DatabaseException;
 import com.ysouz.sistemabiblioteca.exception.EmprestimoNaoEncontradoException;
+import com.ysouz.sistemabiblioteca.exception.LivroJaEmprestadoException;
 import com.ysouz.sistemabiblioteca.exception.LivroNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Emprestimo;
 import com.ysouz.sistemabiblioteca.connection.Conexao;
@@ -26,11 +27,12 @@ public class EmprestimoRepository {
      * informado e atualizando a disponibilidade do livro para indisponível.
      *
      * @param emprestimo empréstimo a ser registrado
+     * @throws LivroJaEmprestadoException se o livro a ser emprestado já tiver sido emprestado anteriormente
      * @throws DatabaseException se ocorrer erro ao acessar banco de dados ou ao realizar rollback da transação
      */
     public void emprestar(Emprestimo emprestimo) {
         String queryEmprestimo = "INSERT INTO emprestimos VALUES (default, ?, ?, ?::date, default)";
-        String queryLivro = "UPDATE livros SET disponivel = false WHERE isbn = ?";
+        String queryLivro = "UPDATE livros SET disponivel = false WHERE isbn = ? AND disponivel = true";
 
         Connection conexao = null;
         try {
@@ -40,25 +42,28 @@ public class EmprestimoRepository {
             try (PreparedStatement statementEmprestimo = conexao.prepareStatement(queryEmprestimo);
                 PreparedStatement statementLivro = conexao.prepareStatement(queryLivro)) {
 
+                statementLivro.setString(1, emprestimo.getLivro().getIsbn());
+                int linhasAlteradas = statementLivro.executeUpdate();
+                if (linhasAlteradas == 0) {
+                    throw new LivroJaEmprestadoException("Livro indisponível! Não pode ser emprestado.");
+                }
+
                 statementEmprestimo.setString(1, emprestimo.getUsuario().getCpf());
                 statementEmprestimo.setString(2, emprestimo.getLivro().getIsbn());
                 statementEmprestimo.setString(3, emprestimo.getData().toString());
                 statementEmprestimo.executeUpdate();
 
-                statementLivro.setString(1, emprestimo.getLivro().getIsbn());
-                statementLivro.executeUpdate();
             }
             conexao.commit();
 
-        }catch (Exception e) {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException ex) {
-                    throw new DatabaseException("Erro ao realizar rollback", ex);
-                }
-            }
+        } catch (SQLException e) {
+            rollback(conexao);
             throw new DatabaseException("Erro ao salvar empréstimo no banco", e);
+
+        } catch (LivroJaEmprestadoException e) {
+            rollback(conexao);
+            throw e;
+
         } finally {
             if (!Objects.isNull(conexao)) {
                 try {
@@ -313,6 +318,16 @@ public class EmprestimoRepository {
             }
         } catch (SQLException e) {
             throw new DatabaseException("Erro ao verificar se existe empréstimo no banco", e);
+        }
+    }
+
+    private void rollback(Connection conexao) {
+        if (!Objects.isNull(conexao)) {
+            try {
+                conexao.rollback();
+            } catch (SQLException e) {
+                throw new DatabaseException("Erro ao realizar rollback", e);
+            }
         }
     }
 }
