@@ -29,7 +29,7 @@ public class EmprestimoRepository {
      * @throws DatabaseException se ocorrer erro ao acessar banco de dados ou ao realizar rollback da transação
      */
     public void emprestar(Emprestimo emprestimo) {
-        String queryEmprestimo = "INSERT INTO emprestimos VALUES (default, ?, ?, ?, default)";
+        String queryEmprestimo = "INSERT INTO emprestimos VALUES (default, ?, ?, ?::date, default)";
         String queryLivro = "UPDATE livros SET disponivel = false WHERE isbn = ?";
 
         Connection conexao = null;

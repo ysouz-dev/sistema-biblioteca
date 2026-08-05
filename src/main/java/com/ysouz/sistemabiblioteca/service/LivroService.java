@@ -28,7 +28,7 @@ public class LivroService {
      */
     public void cadastrarLivro(Livro livro) {
         if (this.livroRepository.containsLivro(livro.getIsbn())) {
-            throw new LivroJaCadastradoException("Livro já cadastrado no sistema.");
+            throw new LivroJaCadastradoException("Livro com esse isbn já cadastrado no sistema.");
         }
         this.livroRepository.salvar(livro);
     }

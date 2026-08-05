@@ -29,7 +29,7 @@ public class Emprestimo {
             throw new IllegalArgumentException("O livro não pode ser nulo.");
         }
         if (!livro.isDisponivel()) {
-            throw new LivroJaEmprestadoException("Um livro indisponivel não pode ser emprestado");
+            throw new LivroJaEmprestadoException("Livro indisponivel! Não pode ser emprestado.");
         }
 
         this.usuario = usuario;
