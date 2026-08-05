@@ -58,24 +58,16 @@ public class UsuarioRepository {
             }
             conexao.commit();
 
-        } catch (Exception e) {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException ex) {
-                    throw new DatabaseException("Erro ao realizar rollback", ex);
-                }
-            }
+        } catch (SQLException e) {
+            rollback(conexao);
             throw new DatabaseException("Erro ao salvar usuário", e);
 
+        } catch (Exception e) {
+            rollback(conexao);
+            throw e;
+
         } finally {
-            if (!Objects.isNull(conexao)) {
-                try {
-                    conexao.close();
-                } catch (SQLException e) {
-                    System.err.println("Erro ao fechar conexão com o banco" + e.getMessage());
-                }
-            }
+            fecharConexao(conexao);
         }
     }
 
