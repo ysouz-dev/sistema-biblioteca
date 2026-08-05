@@ -65,12 +65,16 @@ public class LivroController {
 
                 break;
 
-            } catch (IllegalArgumentException | LivroJaCadastradoException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
 
             } catch (InputMismatchException e) {
                 System.out.println("Digite apenas números para o ano de lançamento.");
                 this.scanner.nextLine();
+
+            } catch (LivroJaCadastradoException e) {
+                System.out.println(e.getMessage());
+                return;
             }
         }
         System.out.println("Livro cadastrado!");
