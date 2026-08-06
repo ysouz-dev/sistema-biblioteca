@@ -97,7 +97,7 @@ database.pass = sua_senha
 
 **1. Clone o repositório**
 ``` 
-git clone https://github.com/ysouz-dev/gerenciador-barbearia
+git clone https://github.com/ysouz-dev/sistema-biblioteca
 ```
 
 **2. Configure o banco de dados conforme as instruções acima**
