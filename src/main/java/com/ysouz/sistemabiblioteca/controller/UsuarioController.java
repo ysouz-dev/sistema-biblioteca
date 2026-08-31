@@ -6,6 +6,7 @@ import com.ysouz.sistemabiblioteca.exception.UsuarioNaoEncontradoException;
 import com.ysouz.sistemabiblioteca.model.Endereco;
 import com.ysouz.sistemabiblioteca.model.Usuario;
 import com.ysouz.sistemabiblioteca.service.UsuarioService;
+import com.ysouz.sistemabiblioteca.validation.EnderecoValidator;
 import com.ysouz.sistemabiblioteca.validation.UsuarioValidator;
 import com.ysouz.sistemabiblioteca.enums.Sexo;
 import com.ysouz.sistemabiblioteca.exception.UsuarioJaCadastradoException;
@@ -16,12 +17,10 @@ import java.util.Scanner;
 
 public class UsuarioController {
     private final Scanner scanner;
-    private final EnderecoController enderecoController;
     private final UsuarioService usuarioService;
 
     public UsuarioController(Scanner scanner) {
         this.scanner = scanner;
-        this.enderecoController = new EnderecoController(scanner);
         this.usuarioService = new UsuarioService();
     }
 
@@ -58,7 +57,7 @@ public class UsuarioController {
                     contador++;
                 }
 
-                endereco = enderecoController.cadastrarEndereco();
+                endereco = cadastrarEndereco();
 
                 this.usuarioService.cadastrarUsuario(new Usuario(nome, cpf, sexo, endereco));
 
@@ -73,6 +72,53 @@ public class UsuarioController {
             }
         }
         System.out.println("Usuário cadastrado!");
+    }
+
+    private Endereco cadastrarEndereco() {
+
+        String rua = "";
+        String bairro = "";
+        String numero = "";
+        String cep = "";
+
+        int contador = 1;
+
+        while (true) {
+            try {
+                if (contador == 1) {
+                    System.out.print("Rua: ");
+                    rua = this.scanner.nextLine();
+                    EnderecoValidator.validaLogradouro(rua, "rua");
+                    contador++;
+                }
+
+                if (contador == 2) {
+                    System.out.print("Bairro: ");
+                    bairro = this.scanner.nextLine();
+                    EnderecoValidator.validaLogradouro(bairro, "bairro");
+                    contador++;
+                }
+
+                if (contador == 3) {
+                    System.out.print("Número: ");
+                    numero = this.scanner.nextLine();
+                    EnderecoValidator.validaLogradouro(numero, "número");
+                    contador++;
+                }
+
+                if (contador == 4) {
+                    System.out.print("CEP: ");
+                    cep = this.scanner.nextLine();
+                    EnderecoValidator.validaCep(cep);
+                    contador++;
+                }
+
+                return new Endereco(rua, numero, bairro, cep);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public void buscaPorCpf() {
