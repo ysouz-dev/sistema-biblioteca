@@ -19,9 +19,9 @@ public class UsuarioController {
     private final Scanner scanner;
     private final UsuarioService usuarioService;
 
-    public UsuarioController(Scanner scanner) {
+    public UsuarioController(Scanner scanner, UsuarioService usuarioService) {
         this.scanner = scanner;
-        this.usuarioService = new UsuarioService();
+        this.usuarioService = usuarioService;
     }
 
     public void cadastrarUsuario() {

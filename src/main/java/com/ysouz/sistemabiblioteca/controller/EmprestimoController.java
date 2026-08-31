@@ -21,11 +21,12 @@ public class EmprestimoController {
     private final UsuarioService usuarioService;
     private final LivroService livroService;
 
-    public EmprestimoController(Scanner scanner) {
+    public EmprestimoController(Scanner scanner, EmprestimoService emprestimoService, UsuarioService usuarioService,
+                                LivroService livroService) {
         this.scanner = scanner;
-        this.emprestimoService = new EmprestimoService();
-        this.usuarioService = new UsuarioService();
-        this.livroService = new LivroService();
+        this.emprestimoService = emprestimoService;
+        this.usuarioService = usuarioService;
+        this.livroService = livroService;
 
     }
 

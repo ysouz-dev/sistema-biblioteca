@@ -9,11 +9,12 @@ public class MenuController {
     private final EmprestimoController emprestimoController;
     private final Scanner scanner;
 
-    public MenuController() {
-        this.scanner = new Scanner(System.in);
-        this.usuarioController = new UsuarioController(this.scanner);
-        this.livroController = new LivroController(this.scanner);
-        this.emprestimoController = new EmprestimoController(this.scanner);
+    public MenuController(LivroController livroController, UsuarioController usuarioController,
+                          EmprestimoController emprestimoController, Scanner scanner) {
+        this.scanner = scanner;
+        this.usuarioController = usuarioController;
+        this.livroController = livroController;
+        this.emprestimoController = emprestimoController;
     }
 
     public int menuPrincipal() {

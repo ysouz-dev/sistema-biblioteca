@@ -15,9 +15,9 @@ public class LivroController {
     private final Scanner scanner;
     private final LivroService livroService;
 
-    public LivroController(Scanner scanner) {
+    public LivroController(Scanner scanner, LivroService livroService) {
         this.scanner = scanner;
-        this.livroService = new LivroService();
+        this.livroService = livroService;
     }
 
     public void cadastrarLivro () {
