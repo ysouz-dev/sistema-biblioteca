@@ -9,11 +9,26 @@ public class MenuController {
     private final EmprestimoController emprestimoController;
     private final Scanner scanner;
 
-    public MenuController() {
-        this.scanner = new Scanner(System.in);
-        this.usuarioController = new UsuarioController(this.scanner);
-        this.livroController = new LivroController(this.scanner);
-        this.emprestimoController = new EmprestimoController(this.scanner);
+    public MenuController(LivroController livroController, UsuarioController usuarioController,
+                          EmprestimoController emprestimoController, Scanner scanner) {
+
+        if (livroController == null) {
+            throw new NullPointerException("O livroController não pode ser nulo.");
+        }
+        if (usuarioController == null) {
+            throw new NullPointerException("O usuarioController não pode ser nulo.");
+        }
+        if (emprestimoController == null) {
+            throw new NullPointerException("O emprestimoController não pode ser nulo.");
+        }
+        if (scanner == null) {
+            throw new NullPointerException("O scanner não pode ser nulo.");
+        }
+
+        this.scanner = scanner;
+        this.usuarioController = usuarioController;
+        this.livroController = livroController;
+        this.emprestimoController = emprestimoController;
     }
 
     public int menuPrincipal() {
