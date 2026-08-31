@@ -15,8 +15,8 @@ import java.util.List;
 public class LivroService {
     private final LivroRepository livroRepository;
 
-    public LivroService() {
-        this.livroRepository = new LivroRepository();
+    public LivroService(LivroRepository livroRepository) {
+        this.livroRepository = livroRepository;
     }
 
     /**

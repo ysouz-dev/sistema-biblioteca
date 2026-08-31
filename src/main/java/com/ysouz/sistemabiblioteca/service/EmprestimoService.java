@@ -17,8 +17,8 @@ public class EmprestimoService {
 
     private final EmprestimoRepository emprestimoRepository;
 
-    public EmprestimoService() {
-        this.emprestimoRepository = new EmprestimoRepository();
+    public EmprestimoService(EmprestimoRepository emprestimoRepository) {
+        this.emprestimoRepository = emprestimoRepository;
     }
 
     /**

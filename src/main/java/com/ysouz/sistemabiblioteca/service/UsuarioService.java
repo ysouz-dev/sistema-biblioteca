@@ -18,8 +18,8 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService() {
-        this.usuarioRepository = new UsuarioRepository();
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     /**
