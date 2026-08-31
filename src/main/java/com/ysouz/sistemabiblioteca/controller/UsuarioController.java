@@ -20,6 +20,13 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     public UsuarioController(Scanner scanner, UsuarioService usuarioService) {
+        if (scanner == null) {
+            throw new NullPointerException("O scanner não pode ser nulo.");
+        }
+        if (usuarioService == null) {
+            throw new NullPointerException("O usuárioService não pode ser nulo.");
+        }
+
         this.scanner = scanner;
         this.usuarioService = usuarioService;
     }

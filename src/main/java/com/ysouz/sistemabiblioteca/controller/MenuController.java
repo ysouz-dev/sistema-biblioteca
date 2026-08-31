@@ -11,6 +11,20 @@ public class MenuController {
 
     public MenuController(LivroController livroController, UsuarioController usuarioController,
                           EmprestimoController emprestimoController, Scanner scanner) {
+
+        if (livroController == null) {
+            throw new NullPointerException("O livroController não pode ser nulo.");
+        }
+        if (usuarioController == null) {
+            throw new NullPointerException("O usuarioController não pode ser nulo.");
+        }
+        if (emprestimoController == null) {
+            throw new NullPointerException("O emprestimoController não pode ser nulo.");
+        }
+        if (scanner == null) {
+            throw new NullPointerException("O scanner não pode ser nulo.");
+        }
+
         this.scanner = scanner;
         this.usuarioController = usuarioController;
         this.livroController = livroController;

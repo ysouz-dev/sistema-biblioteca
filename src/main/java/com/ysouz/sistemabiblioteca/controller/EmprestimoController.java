@@ -23,6 +23,19 @@ public class EmprestimoController {
 
     public EmprestimoController(Scanner scanner, EmprestimoService emprestimoService, UsuarioService usuarioService,
                                 LivroService livroService) {
+        if (scanner == null) {
+            throw new NullPointerException("O scanner não pode ser nulo.");
+        }
+        if (emprestimoService == null) {
+            throw new NullPointerException("O emprestimoService não pode ser nulo.");
+        }
+        if (usuarioService == null) {
+            throw new NullPointerException("O usuarioService não pode ser nulo.");
+        }
+        if (livroService == null) {
+            throw new NullPointerException("O livroService não pode ser nulo.");
+        }
+
         this.scanner = scanner;
         this.emprestimoService = emprestimoService;
         this.usuarioService = usuarioService;
