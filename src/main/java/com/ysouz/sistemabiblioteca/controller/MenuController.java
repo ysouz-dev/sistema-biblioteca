@@ -127,6 +127,114 @@ public class MenuController {
         return resposta;
     }
 
+    public void iniciar() {
+        int opcao = Integer.MIN_VALUE;
+        do {
+            opcao = menuPrincipal();
+
+            switch (opcao) {
+                case 0:
+                    System.out.println("Sistema encerrado, volte sempre!");
+                    this.scanner.close();
+                    break;
+
+                case 1:
+                    this.livroController.cadastrarLivro();
+                    break;
+
+                case 2:
+                    this.usuarioController.cadastrarUsuario();
+                    break;
+
+                case 3:
+                    this.emprestimoController.cadastrarEmprestimo();
+                    break;
+
+                case 4:
+                    this.emprestimoController.devolverLivro();
+                    break;
+
+                case 5:
+                    int opcaoLivro = menuLivro();
+                    switch (opcaoLivro) {
+
+                        case 0:
+                            break;
+
+                        case 1:
+                            this.livroController.buscaPorTitulo();
+                            break;
+
+                        case 2:
+                            this.livroController.buscaPorIsbn();
+                            break;
+
+                        case 3:
+                            this.livroController.buscaPorAutor();
+                            break;
+
+                        case 4:
+                            this.livroController.listaLivrosDisponiveis();
+                            break;
+
+                        case 5:
+                            this.livroController.listaLivrosEmprestados();
+                            break;
+                    }
+                    break;
+
+                case 6:
+                    int opcaoUsuario = menuUsuario();
+                    switch (opcaoUsuario) {
+
+                        case 0:
+                            break;
+
+                        case 1:
+                            this.usuarioController.buscaPorCpf();
+                            break;
+
+                        case 2:
+                            this.usuarioController.buscaPorNome();
+                            break;
+
+                        case 3:
+                            this.usuarioController.listaUsuariosPendentes();
+                            break;
+
+                        case 4:
+                            this.usuarioController.listaUsuarios();
+                            break;
+                    }
+                    break;
+
+                case 7:
+                    int opcaoEmprestimo = menuEmprestimo();
+                    switch (opcaoEmprestimo) {
+                        case 0:
+                            break;
+
+                        case 1:
+                            this.emprestimoController.buscaEmprestimoPendentePorCpf();
+                            break;
+
+                        case 2:
+                            this.emprestimoController.buscaTodosEmprestimosPorCpf();
+                            break;
+
+                        case 3:
+                            this.emprestimoController.listaTodosEmprestimos();
+                            break;
+
+                        case 4:
+                            this.emprestimoController.listaTodosEmprestimosPendentes();
+                            break;
+                    }
+                    break;
+            }
+        } while (opcao != 0);
+    }
+
     public void cadastrarLivro() {
         this.livroController.cadastrarLivro();
     }
