@@ -15,9 +15,16 @@ public class LivroController {
     private final Scanner scanner;
     private final LivroService livroService;
 
-    public LivroController(Scanner scanner) {
+    public LivroController(Scanner scanner, LivroService livroService) {
+        if (scanner == null) {
+            throw new NullPointerException("O scanner não pode ser nulo.");
+        }
+        if (livroService == null) {
+            throw new NullPointerException("O livroService não pode ser nulo.");
+        }
+
         this.scanner = scanner;
-        this.livroService = new LivroService();
+        this.livroService = livroService;
     }
 
     public void cadastrarLivro () {

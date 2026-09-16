@@ -17,8 +17,11 @@ public class EmprestimoService {
 
     private final EmprestimoRepository emprestimoRepository;
 
-    public EmprestimoService() {
-        this.emprestimoRepository = new EmprestimoRepository();
+    public EmprestimoService(EmprestimoRepository emprestimoRepository) {
+        if (emprestimoRepository == null) {
+            throw new NullPointerException("O repositório de empréstimo não pode ser nulo.");
+        }
+        this.emprestimoRepository = emprestimoRepository;
     }
 
     /**

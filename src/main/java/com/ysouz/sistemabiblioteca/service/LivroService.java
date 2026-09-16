@@ -15,8 +15,11 @@ import java.util.List;
 public class LivroService {
     private final LivroRepository livroRepository;
 
-    public LivroService() {
-        this.livroRepository = new LivroRepository();
+    public LivroService(LivroRepository livroRepository) {
+        if (livroRepository == null) {
+            throw new NullPointerException("O repositório de livro não pode ser nulo.");
+        }
+        this.livroRepository = livroRepository;
     }
 
     /**
